@@ -1,0 +1,21 @@
+Harbour should have following Modules:
+
+Docker
+GitHub
+Kubernetes
+Development
+Monitoring
+
+With following Pages:
+
+Dashboard
+Repositories
+Services
+Bug Tracker
+_____
+Profile
+Inbox
+_____
+Settings
+Legal Notice
+

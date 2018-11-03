@@ -1,0 +1,52 @@
+{
+    "informations": {
+        "version": "0.1",
+        "description": "This provides the SideMenu for the Harbour Page"
+    },
+    "module_pages": [
+        {
+            "name": "Dashboard",
+            "internal_name": "Dashboard",
+            "icon": "dashboard"
+        },
+        {
+            "name": "Repositories",
+            "internal_name": "Repositories",
+            "icon": "cloud"
+        },
+        {
+            "name": "Services",
+            "internal_name": "Services",
+            "icon": "scatter_plot"
+        },
+        {
+            "name": "Bug tracker",
+            "internal_name": "BugTracker",
+            "icon": "bug_report"
+        }
+    ],
+    "personal_pages": [
+        {
+            "name": "Profile",
+            "internal_name": "Profile",
+            "icon": "account_circle"
+        },
+        {
+            "name": "Inbox",
+            "internal_name": "Inbox",
+            "icon": "inbox"
+        }
+    ],
+    "system_pages": [
+        {
+            "name": "Settings",
+            "internal_name": "Settings",
+            "icon": "settings"
+        },
+        {
+            "name": "Legal Notice",
+            "internal_name": "LegalNotice",
+            "icon": "copyright"
+        }
+    ]
+}

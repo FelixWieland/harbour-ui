@@ -1,23 +1,28 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles, createMuiTheme } from '@material-ui/core/styles';
+import PropTypes, { func } from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
+
+
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+import Icon from '@material-ui/core/Icon';
+
 
 const styles = {
     list: {
         width: 250,
+        paddingTop: 50,
     },
     fullList: {
         width: 'auto',
     },
 };
+
+const sideMenuAPI = "sideMenu-api.json";
 
 class SideMenu extends React.Component {
 
@@ -30,11 +35,20 @@ class SideMenu extends React.Component {
         this.toggleDrawer = this.toggleDrawer.bind(this);
     };
 
-    componentWillReceiveProps(props) {
+    componentWillReceiveProps = (props) => {
         if (props.show !== this.state.left) {
             this.setState({ left: props.show });
             this.props = props;
         }
+    }
+
+    componentDidMount = () => {
+        /*fetch(sideMenuApi)
+            .then(response => response.json())
+            .then(data => this.setState({ data }));*/
+        import('../' + sideMenuAPI).then(
+            res => this.setState({ sideMenuAPI: res }),
+        );
     }
 
     toggleDrawer = (open) => () => {
@@ -43,28 +57,35 @@ class SideMenu extends React.Component {
         });
     };
 
+    getSideMenuData = (type) => {
+        try {
+            return this.state.sideMenuAPI.default[type];
+        } catch (ex) {
+            return [] //empty list to escape error
+        }
+    }
+
+    navigation = (elm) => {
+        this.props.change_Page(elm);
+    };
+
     render() {
         const { classes } = this.props;
-
         const sideList = (
             <div className={classes.list}>
-                <List>
-                    {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItem>
-                    ))}
-                </List>
-                <Divider />
-                <List>
-                    {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItem>
-                    ))}
-                </List>
+                {["module_pages", "personal_pages", "system_pages"].map((pages, index) => (
+                    <React.Fragment>
+                        <Divider />
+                        <List>
+                            {this.getSideMenuData(pages).map((obj, index) => (
+                                <ListItem button key={index} onClick={() => this.navigation(obj.internal_name)} >
+                                    <ListItemIcon><Icon>{obj.icon}</Icon></ListItemIcon>
+                                    <ListItemText primary={obj.name} />
+                                </ListItem>
+                            ))}
+                        </List>
+                    </React.Fragment>
+                ))}
             </div>
         );
 

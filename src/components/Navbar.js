@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, createMuiTheme } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -52,6 +52,7 @@ class MenuAppBar extends React.Component {
         super(props);
         this.sidemenu = React.createRef();
         this.handleMenuDrawer = this.handleMenuDrawer.bind(this);
+        this.handleHarbourClick = this.handleHarbourClick.bind(this);
     };
 
     handleChange = event => {
@@ -81,6 +82,22 @@ class MenuAppBar extends React.Component {
         });
     };
 
+    handleHarbourClick = () => {
+        this.props.change_Page("Dashboard"); //Goto standart Page
+        this.setState({
+            show_sidebar: false
+        });
+    };
+
+    handleProfile = () => {
+        this.handleClose();
+        this.props.change_Page("Profile");
+    }
+
+    handleLogout = () => {
+        this.handleClose();
+    }
+
     setChildRef(node) {
         this.childNode = node;
     };
@@ -93,13 +110,13 @@ class MenuAppBar extends React.Component {
         return (
             <div className={classes.root}>
                 <CssBaseline />
-                <SideMenu show={this.state.show_sidebar} />
+                <SideMenu show={this.state.show_sidebar} change_Page={this.props.change_Page} />
                 <AppBar position="fixed">
-                    <Toolbar>
+                    <Toolbar variant="dense">
                         <IconButton className={classes.menuButton} onClick={this.handleMenuDrawer} color="inherit" aria-label="Menu">
                             <MenuIcon />
                         </IconButton>
-                        <Typography variant="h6" color="inherit" className={classes.grow}>
+                        <Typography variant="h6" color="inherit" onClick={this.handleHarbourClick} className={classes.grow}>
                             Harbour
                         </Typography>
                         {auth && (
@@ -126,8 +143,8 @@ class MenuAppBar extends React.Component {
                                     open={open}
                                     onClose={this.handleClose}
                                 >
-                                    <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-                                    <MenuItem onClick={this.handleClose}>My account</MenuItem>
+                                    <MenuItem onClick={this.handleProfile}>Profile</MenuItem>
+                                    <MenuItem onClick={this.handleClose}>Logout</MenuItem>
                                 </Menu>
                             </div>
                         )}
