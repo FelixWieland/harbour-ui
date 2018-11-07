@@ -40,7 +40,7 @@ const theme = createMuiTheme({
 class App extends Component {
 
   state = {
-    active_Page: <Dashboard />
+    active_Page: <Repositories />
   }
 
   constructor(props) {
