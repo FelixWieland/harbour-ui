@@ -4,8 +4,10 @@ import logo from './logo.svg';
 import './App.css';
 
 /*Material UI Components*/
-import Button from '@material-ui/core/Button';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+
+/*React Router*/
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 /*Own Components*/
 import Navbar from './components/Navbar'
@@ -17,6 +19,7 @@ import Profile from './components/Profile'
 import Inbox from './components/Inbox'
 import Settings from './components/Settings'
 import LegalNotice from './components/LegalNotice'
+import NotFound from './components/NotFound'
 
 const theme = createMuiTheme({
   palette: {
@@ -27,8 +30,8 @@ const theme = createMuiTheme({
       // contrastText: will be calculated to contrast with palette.primary.main
     },
     secondary: {
-      light: '#0066ff',
-      main: '#3834F5',
+      light: '#20B6B0',
+      main: '#2294F3',
       // dark: will be calculated from palette.secondary.main,
       contrastText: '#ffcc00',
     },
@@ -36,55 +39,48 @@ const theme = createMuiTheme({
   },
 });
 
-
 class App extends Component {
-
-  state = {
-    active_Page: <Repositories />
-  }
 
   constructor(props) {
     super(props);
-    this.change_Page = this.change_Page.bind(this);
+
+    this.state = {
+      clipped: false,
+    }
   };
 
-  change_Page = (page) => {
-    switch (page) {
-      case "Dashboard":
-        this.setState({ active_Page: <Dashboard /> })
-        break;
-      case "Repositories":
-        this.setState({ active_Page: <Repositories /> })
-        break;
-      case "Services":
-        this.setState({ active_Page: <Services /> })
-        break;
-      case "BugTracker":
-        this.setState({ active_Page: <BugTracker /> })
-        break;
-      case "Profile":
-        this.setState({ active_Page: <Profile /> })
-        break;
-      case "Inbox":
-        this.setState({ active_Page: <Inbox /> })
-        break;
-      case "Settings":
-        this.setState({ active_Page: <Settings /> })
-        break;
-      case "LegalNotice":
-        this.setState({ active_Page: <LegalNotice /> })
-        break;
+  getWorkingArea = () => {
+    if (this.state.clipped == true) {
+      return "clippedArea";
     }
   }
 
   render() {
     return (
-      <MuiThemeProvider theme={theme}>
-        <div className="App">
-          <Navbar change_Page={this.change_Page} />
-          {this.state.active_Page}
-        </div>
-      </MuiThemeProvider>
+      <BrowserRouter>
+        <MuiThemeProvider theme={theme}>
+          <div className="App">
+            <Navbar clipped={this.state.clipped} />
+            <div className={this.getWorkingArea()} >
+              <Switch>
+                <Route path="/" component={Dashboard} exact />
+
+                <Route path="/Dashboard" component={Dashboard} />
+                <Route path="/Repositories" component={Repositories} />
+                <Route path="/Services" component={Services} />
+                <Route path="/BugTracker" component={BugTracker} />
+                <Route path="/Profile" component={Profile} />
+                <Route path="/Inbox" component={Inbox} />
+                <Route path="/Settings" component={Settings} />
+                <Route path="/LegalNotice" component={LegalNotice} />
+                <Route path="/Profile" component={Profile} />
+
+                <Route component={NotFound} />
+              </Switch>
+            </div>
+          </div>
+        </MuiThemeProvider>
+      </BrowserRouter>
     );
   }
 }

@@ -5,6 +5,7 @@ import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
+import { NavLink } from 'react-router-dom';
 
 
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -20,6 +21,12 @@ const styles = {
     fullList: {
         width: 'auto',
     },
+    inForeground: {
+        zIndex: 100003,
+    },
+    inBackground: {
+        zIndex: 100000,
+    }
 };
 
 const sideMenuAPI = "sideMenu-api.json";
@@ -33,6 +40,13 @@ class SideMenu extends React.Component {
     constructor(props) {
         super(props);
         this.toggleDrawer = this.toggleDrawer.bind(this);
+        if (this.props.clipped == true) {
+            this.state.variant = "permanent";
+            this.state.variantClass = "inBackground";
+        } else {
+            this.state.variant = "";
+            this.state.variantClass = "inForground";
+        }
     };
 
     componentWillReceiveProps = (props) => {
@@ -64,11 +78,7 @@ class SideMenu extends React.Component {
             return [] //empty list to escape error
         }
     }
-
-    navigation = (elm) => {
-        this.props.change_Page(elm);
-    };
-
+    /*onClick={() => this.navigation(obj.internal_name)}*/
     render() {
         const { classes } = this.props;
         const sideList = (
@@ -78,10 +88,12 @@ class SideMenu extends React.Component {
                         <Divider />
                         <List>
                             {this.getSideMenuData(pages).map((obj, index) => (
-                                <ListItem button key={index} onClick={() => this.navigation(obj.internal_name)} >
-                                    <ListItemIcon><Icon>{obj.icon}</Icon></ListItemIcon>
-                                    <ListItemText primary={obj.name} />
-                                </ListItem>
+                                <NavLink className="clearAll" to={"/" + obj.internal_name}>
+                                    <ListItem button key={index}  >
+                                        <ListItemIcon><Icon>{obj.icon}</Icon></ListItemIcon>
+                                        <ListItemText primary={obj.name} />
+                                    </ListItem>
+                                </NavLink>
                             ))}
                         </List>
                     </React.Fragment>
@@ -91,7 +103,7 @@ class SideMenu extends React.Component {
 
         return (
             <div>
-                <Drawer anchor="left" open={this.state.left} onClose={this.toggleDrawer(false)} >
+                <Drawer variant={this.state.variant} className={classes.variantClass} anchor="left" open={this.state.left} onClose={this.toggleDrawer(false)} >
                     <div
                         tabIndex={0}
                         role="button"

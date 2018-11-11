@@ -9,6 +9,8 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
+import LoadBar from './LoadBar'
+
 import Grid from '@material-ui/core/Grid';
 
 
@@ -25,8 +27,14 @@ const styles = theme => ({
     control: {
         padding: theme.spacing.unit * 2,
     },
-    card: {
+    card_small: {
+        minWidth: 200,
+    },
+    card_medium: {
         minWidth: 350,
+    },
+    card_large: {
+        minWidth: 500,
     },
     title: {
         fontSize: 14,
@@ -41,18 +49,33 @@ const dashboardAPI = "dashboard-api.json";
 class GuttersGrid extends React.Component {
     state = {
         spacing: '16',
+        setLoadBar: undefined,
+        loadState: 0,
     };
 
     constructor(props) {
         super(props);
+        this.setState({ loadState: 10 })
+    }
+
+    getCardSize = (size) => {
+        switch (size) {
+            case "small": return this.props.card_small;
+            case "medium": return this.props.card_medium;
+            case "large": return this.props.card_large;
+        }
     }
 
     componentDidMount = () => {
         /*fetch(sideMenuApi)
             .then(response => response.json())
             .then(data => this.setState({ data }));*/
+        this.setState({ loadState: 15 })
         import('../' + dashboardAPI).then(
-            res => this.setState({ dashboardAPI: res }),
+            res => this.setState({
+                dashboardAPI: res,
+                loadState: 100
+            }),
         );
     };
 
@@ -69,27 +92,30 @@ class GuttersGrid extends React.Component {
         const { spacing } = this.state;
 
         return (
-            <Grid container className={classes.root} spacing={16}>
-                <Grid item xs={12}>
-                    <Grid container className={classes.demo} justify="center" spacing={Number(spacing)}>
-                        {this.getDashboardData().map((value, index) => (
-                            <Grid key={index} item>
-                                <Card className={classes.card}>
-                                    <CardContent>
-                                        <Typography className={classes.title} color="textSecondary" gutterBottom>
-                                            {value.name}
-                                        </Typography>
-                                        <Typography variant="h5" component="h2">
-                                            {value.type}
-                                        </Typography>
-                                    </CardContent>
+            <React.Fragment>
+                <LoadBar state={this.state.loadState} />
+                <Grid container className={classes.root} spacing={16}>
+                    <Grid item xs={12}>
+                        <Grid container className={classes.demo} justify="center" spacing={Number(spacing)}>
+                            {this.getDashboardData().map((value, index) => (
+                                <Grid key={index} item>
+                                    <Card className={this.getCardSize(value.size)}>
+                                        <CardContent>
+                                            <Typography className={classes.title} color="textSecondary" gutterBottom>
+                                                {value.name}
+                                            </Typography>
+                                            <Typography variant="h5" component="h2">
+                                                {value.type}
+                                            </Typography>
+                                        </CardContent>
 
-                                </Card>
-                            </Grid>
-                        ))}
+                                    </Card>
+                                </Grid>
+                            ))}
+                        </Grid>
                     </Grid>
                 </Grid>
-            </Grid>
+            </React.Fragment>
         );
     }
 }

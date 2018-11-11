@@ -10,6 +10,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import { NavLink } from 'react-router-dom';
 
 /*Own Components*/
 import SideMenu from './SideMenu'
@@ -37,7 +38,7 @@ const styles = {
         marginRight: 20,
     },
     appBar: {
-        zIndex: 100000,
+        zIndex: 1100,
     },
 };
 
@@ -50,9 +51,7 @@ class MenuAppBar extends React.Component {
 
     constructor(props) {
         super(props);
-        this.sidemenu = React.createRef();
         this.handleMenuDrawer = this.handleMenuDrawer.bind(this);
-        this.handleHarbourClick = this.handleHarbourClick.bind(this);
     };
 
     handleChange = event => {
@@ -82,22 +81,6 @@ class MenuAppBar extends React.Component {
         });
     };
 
-    handleHarbourClick = () => {
-        this.props.change_Page("Dashboard"); //Goto standart Page
-        this.setState({
-            show_sidebar: false
-        });
-    };
-
-    handleProfile = () => {
-        this.handleClose();
-        this.props.change_Page("Profile");
-    }
-
-    handleLogout = () => {
-        this.handleClose();
-    }
-
     setChildRef(node) {
         this.childNode = node;
     };
@@ -110,7 +93,7 @@ class MenuAppBar extends React.Component {
         return (
             <div className={classes.root}>
                 <CssBaseline />
-                <SideMenu show={this.state.show_sidebar} change_Page={this.props.change_Page} />
+                <SideMenu clipped={this.props.clipped} show={this.state.show_sidebar} />
                 <AppBar position="fixed">
                     <Toolbar variant="dense">
                         <IconButton className={classes.menuButton} onClick={this.handleMenuDrawer} color="inherit" aria-label="Menu">
@@ -143,8 +126,12 @@ class MenuAppBar extends React.Component {
                                     open={open}
                                     onClose={this.handleClose}
                                 >
-                                    <MenuItem onClick={this.handleProfile}>Profile</MenuItem>
-                                    <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+                                    <NavLink className="clearAll" to={"/Profile"}>
+                                        <MenuItem>Profile</MenuItem>
+                                    </NavLink>
+                                    <NavLink className="clearAll" to={"/Logout"}>
+                                        <MenuItem>Logout</MenuItem>
+                                    </NavLink>
                                 </Menu>
                             </div>
                         )}

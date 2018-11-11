@@ -14,7 +14,13 @@
             "name": "Pods",
             "internal_name": "pod_statistics",
             "type": "pod_counts",
-            "size": "large"
+            "size": "medium"
+        },
+        {
+            "name": "Latest Commit",
+            "internal_name": "latest_commit_statistic",
+            "type": "latest_commit",
+            "size": "small"
         }
     ]
 }

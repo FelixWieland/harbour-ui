@@ -11,6 +11,7 @@ import { fade } from '@material-ui/core/styles/colorManipulator';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import SearchIcon from '@material-ui/icons/Search';
+import LoadBar from './LoadBar'
 
 /*Material UI Components*/
 import { withStyles } from '@material-ui/core/styles';
@@ -84,18 +85,21 @@ class Repositories extends React.Component {
             searchValue: '',
             repositoryAPI: null,
             repositoryAPIcopy: null,
-            expanded: null
+            expanded: null,
+            loadState: 10,
         }
     }
 
     searchValue = "";
 
     componentDidMount() {
+        this.setState({ loadState: 20 });
         fetch(apiRepositories)
             .then(response => response.json())
             .then(repositoryData => this.setState({
                 repositoryAPI: repositoryData,
-                repositoryAPIcopy: repositoryData
+                repositoryAPIcopy: repositoryData,
+                loadState: 100
             }));
     }
 
@@ -146,42 +150,45 @@ class Repositories extends React.Component {
         const { classes } = this.props;
         const { expanded } = this.state;
         return (
-            <div className={classes.root} >
-                <AppBar position="static">
-                    <Toolbar>
-                        <div className={classes.search}>
-                            <div className={classes.searchIcon}>
-                                <SearchIcon />
+            <React.Fragment>
+                <LoadBar state={this.state.loadState} />
+                <div className={classes.root} >
+                    <AppBar position="static">
+                        <Toolbar>
+                            <div className={classes.search}>
+                                <div className={classes.searchIcon}>
+                                    <SearchIcon />
+                                </div>
+                                <InputBase
+                                    placeholder="Search…"
+                                    classes={{
+                                        root: classes.inputRoot,
+                                        input: classes.inputInput,
+                                    }}
+                                    value={this.state.searchValue}
+                                    onChange={this.renderFiltered('searchValue')}
+                                />
                             </div>
-                            <InputBase
-                                placeholder="Search…"
-                                classes={{
-                                    root: classes.inputRoot,
-                                    input: classes.inputInput,
-                                }}
-                                value={this.state.searchValue}
-                                onChange={this.renderFiltered('searchValue')}
-                            />
-                        </div>
-                        <div className={classes.grow} />
-                        <div className={classes.sectionDesktop}>
-                        </div>
-                    </Toolbar>
-                </AppBar>
-                {this.getRepositoryData().map((value, index) => (
-                    <ExpansionPanel expanded={expanded === value.node_id} onChange={this.handleChange(value.node_id)} >
-                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                            <Typography className={classes.heading}>{value.name}</Typography>
-                            <Typography className={classes.secondaryHeading}>{value.description}</Typography>
-                        </ExpansionPanelSummary>
-                        <ExpansionPanelDetails>
-                            <Typography>
-                                {value.description}
-                            </Typography>
-                        </ExpansionPanelDetails>
-                    </ExpansionPanel>
-                ))}
-            </div >
+                            <div className={classes.grow} />
+                            <div className={classes.sectionDesktop}>
+                            </div>
+                        </Toolbar>
+                    </AppBar>
+                    {this.getRepositoryData().map((value, index) => (
+                        <ExpansionPanel expanded={expanded === value.node_id} onChange={this.handleChange(value.node_id)} >
+                            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                                <Typography className={classes.heading}>{value.name}</Typography>
+                                <Typography className={classes.secondaryHeading}>{value.description}</Typography>
+                            </ExpansionPanelSummary>
+                            <ExpansionPanelDetails>
+                                <Typography>
+                                    {value.description}
+                                </Typography>
+                            </ExpansionPanelDetails>
+                        </ExpansionPanel>
+                    ))}
+                </div >
+            </React.Fragment>
         );
     }
 }
