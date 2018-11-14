@@ -8,10 +8,18 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import Icon from '@material-ui/core/Icon'
+import IconButton from '@material-ui/core/IconButton';
 
 import LoadBar from './LoadBar'
 
 import Grid from '@material-ui/core/Grid';
+
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 
 /*Own Components*/
@@ -19,22 +27,44 @@ import Grid from '@material-ui/core/Grid';
 const styles = theme => ({
     root: {
         flexGrow: 1,
+        paddingLeft: 5,
+        paddingRight: 5
     },
     paper: {
-        height: 140,
-        width: 100,
+        height: "100%",
+        width: "100%",
+        position: "relative"
     },
     control: {
         padding: theme.spacing.unit * 2,
     },
     card_small: {
-        minWidth: 200,
+        maxWidth: 200,
+        height: 250,
+        width: "100%",
+        position: "relative",
+        transition: "all .3s"
     },
     card_medium: {
-        minWidth: 350,
+        maxWidth: 350,
+        height: 250,
+        width: "100%",
+        position: "relative",
+        transition: "all .3s"
     },
     card_large: {
-        minWidth: 500,
+        maxWidth: 450,
+        height: 250,
+        width: "100%",
+        position: "relative",
+        transition: "all .3s"
+    },
+    card_extended: {
+        height: "90vh",
+        width: "100%",
+        maxWidth: "100%",
+        position: "relative",
+        transition: "all .3s"
     },
     title: {
         fontSize: 14,
@@ -42,6 +72,14 @@ const styles = theme => ({
     pos: {
         marginBottom: 12,
     },
+    cardActionBar: {
+        position: "absolute",
+        bottom: 0,
+        right: 0,
+        width: "100%",
+        height: 45,
+        textAlign: "right",
+    }
 });
 
 const dashboardAPI = "dashboard-api.json";
@@ -51,19 +89,15 @@ class GuttersGrid extends React.Component {
         spacing: '16',
         setLoadBar: undefined,
         loadState: 0,
+        deleteDialog: false,
+        deleteID: "007",
     };
 
     constructor(props) {
         super(props);
-        this.setState({ loadState: 10 })
-    }
-
-    getCardSize = (size) => {
-        switch (size) {
-            case "small": return this.props.card_small;
-            case "medium": return this.props.card_medium;
-            case "large": return this.props.card_large;
-        }
+        this.setState({ loadState: 10 });
+        this.extendBoard = this.extendBoard.bind(this);
+        this.deleteBoard = this.deleteBoard.bind(this);
     }
 
     componentDidMount = () => {
@@ -87,9 +121,78 @@ class GuttersGrid extends React.Component {
         }
     };
 
+    getDashboardSizes = (size) => {
+        switch (size) {
+            case "small": return this.props.classes.card_small;
+            case "medium": return this.props.classes.card_medium;
+            case "large": return this.props.classes.card_large;
+            case "extended": return this.props.classes.card_extended;
+        }
+    }
+
+    extendBoard = (index) => {
+        if (this.state.dashboardAPI.default.boards[index].size_copy == undefined) {
+            this.state.dashboardAPI.default.boards[index].size_copy = this.state.dashboardAPI.default.boards[index].size;
+        }
+        if (this.state.dashboardAPI.default.boards[index].size == "extended") {
+            this.state.dashboardAPI.default.boards[index].size = this.state.dashboardAPI.default.boards[index].size_copy;
+        } else {
+            this.state.dashboardAPI.default.boards[index].size = "extended";
+        }
+
+        this.forceUpdate();
+    }
+
+    deleteBoard = (id) => {
+
+    }
+
+    showHideDeleteDialog = () => {
+        if (this.state.deleteDialog) {
+            this.state.deleteDialog = false;
+        } else {
+            this.state.deleteDialog = true;
+        }
+        this.forceUpdate();
+    }
+
+    handleDialogUpdate = (what) => {
+        if (what == "CLOSE") {
+            this.state.deleteDialog = false;
+            this.state.deleteID = undefined;
+        }
+        this.forceUpdate();
+    }
+
     render() {
         const { classes } = this.props;
         const { spacing } = this.state;
+
+        var deleteDialog = (id) => {
+            return (
+                <Dialog
+                    open={this.state.deleteDialog}
+                    onClose={this.handleClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">{"Board löschen?"}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            Soll das Board "BLABLABLA" wirklich gelöscht werden?
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => this.handleDialogUpdate("CLOSE")} color="primary">
+                            Abbrechen
+                            </Button>
+                        <Button onClick={() => this.handleDialogUpdate()} color="primary" autoFocus>
+                            Löschen
+                            </Button>
+                    </DialogActions>
+                </Dialog >
+            );
+        };
 
         return (
             <React.Fragment>
@@ -98,8 +201,8 @@ class GuttersGrid extends React.Component {
                     <Grid item xs={12}>
                         <Grid container className={classes.demo} justify="center" spacing={Number(spacing)}>
                             {this.getDashboardData().map((value, index) => (
-                                <Grid key={index} item>
-                                    <Card className={this.getCardSize(value.size)}>
+                                <Grid key={index} className={this.getDashboardSizes(value.size)} item>
+                                    <Card className={classes.paper}>
                                         <CardContent>
                                             <Typography className={classes.title} color="textSecondary" gutterBottom>
                                                 {value.name}
@@ -107,24 +210,27 @@ class GuttersGrid extends React.Component {
                                             <Typography variant="h5" component="h2">
                                                 {value.type}
                                             </Typography>
+                                            <div className={classes.cardActionBar}>
+                                                <IconButton color="primary" className={classes.button} component="span" onClick={() => this.showHideDeleteDialog(index)}>
+                                                    <Icon>delete</Icon>
+                                                </IconButton>
+                                                <IconButton color="primary" className={classes.button} component="span" onClick={() => this.extendBoard(index)}>
+                                                    <Icon>zoom_out_map</Icon>
+                                                </IconButton>
+                                            </div>
                                         </CardContent>
-
                                     </Card>
+
                                 </Grid>
                             ))}
                         </Grid>
                     </Grid>
                 </Grid>
-            </React.Fragment>
+                {deleteDialog("ID")}
+            </React.Fragment >
         );
     }
 }
-
-/*
-<CardActions>
-    <Button size="small">Learn More</Button>
-</CardActions>
-*/
 
 GuttersGrid.propTypes = {
     classes: PropTypes.object.isRequired,

@@ -21,6 +21,42 @@
             "internal_name": "latest_commit_statistic",
             "type": "latest_commit",
             "size": "small"
+        },
+        {
+            "name": "Demo Board 1",
+            "internal_name": "demo_board_1",
+            "type": "demo",
+            "size": "small"
+        },
+        {
+            "name": "Demo Board 2",
+            "internal_name": "demo_board_2",
+            "type": "demo",
+            "size": "large"
+        },
+        {
+            "name": "Demo Board 3",
+            "internal_name": "demo_board_3",
+            "type": "demo",
+            "size": "medium"
+        },
+        {
+            "name": "Demo Board 4",
+            "internal_name": "demo_board_4",
+            "type": "demo",
+            "size": "large"
+        },
+        {
+            "name": "Demo Board 5",
+            "internal_name": "demo_board_5",
+            "type": "demo",
+            "size": "medium"
+        },
+        {
+            "name": "Demo Board 6",
+            "internal_name": "demo_board_6",
+            "type": "demo",
+            "size": "large"
         }
     ]
 }

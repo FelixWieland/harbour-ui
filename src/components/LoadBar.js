@@ -14,7 +14,7 @@ const styles = theme => ({
         left: 0,
         width: "100%",
         zIndex: 1101,
-        height: 2.5
+        height: 2.5,
     },
     onTopInvisible: {
         position: "absolute",
@@ -33,7 +33,7 @@ class LoadBar extends React.Component {
         super(props);
         this.state = {
             completed: this.props.state,
-            color: "secondary",
+            color: "primary",
             class: this.props.onTop
         };
     }

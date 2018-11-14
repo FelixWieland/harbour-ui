@@ -100,7 +100,7 @@ class MenuAppBar extends React.Component {
                             <MenuIcon />
                         </IconButton>
                         <Typography variant="h6" color="inherit" onClick={this.handleHarbourClick} className={classes.grow}>
-                            Harbour
+                            {""}
                         </Typography>
                         {auth && (
                             <div>

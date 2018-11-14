@@ -5,7 +5,7 @@ import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -16,7 +16,7 @@ import Icon from '@material-ui/core/Icon';
 const styles = {
     list: {
         width: 250,
-        paddingTop: 50,
+        paddingTop: 48,
     },
     fullList: {
         width: 'auto',
@@ -88,12 +88,12 @@ class SideMenu extends React.Component {
                         <Divider />
                         <List>
                             {this.getSideMenuData(pages).map((obj, index) => (
-                                <NavLink className="clearAll" to={"/" + obj.internal_name}>
+                                <Link className="clearAll" to={"/" + obj.internal_name}>
                                     <ListItem button key={index}  >
                                         <ListItemIcon><Icon>{obj.icon}</Icon></ListItemIcon>
                                         <ListItemText primary={obj.name} />
                                     </ListItem>
-                                </NavLink>
+                                </Link>
                             ))}
                         </List>
                     </React.Fragment>
