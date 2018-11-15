@@ -20,6 +20,7 @@ import Inbox from './components/Inbox'
 import Settings from './components/Settings'
 import LegalNotice from './components/LegalNotice'
 import NotFound from './components/NotFound'
+import Development from './components/Development';
 
 const theme = createMuiTheme({
   palette: {
@@ -69,6 +70,7 @@ class App extends Component {
                 <Route path="/Repositories" component={Repositories} />
                 <Route path="/Services" component={Services} />
                 <Route path="/BugTracker" component={BugTracker} />
+                <Route path="/Development" component={Development} />
                 <Route path="/Profile" component={Profile} />
                 <Route path="/Inbox" component={Inbox} />
                 <Route path="/Settings" component={Settings} />

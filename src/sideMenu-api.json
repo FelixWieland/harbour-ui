@@ -23,6 +23,11 @@
             "name": "Bug tracker",
             "internal_name": "BugTracker",
             "icon": "bug_report"
+        },
+        {
+            "name": "Development",
+            "internal_name": "Development",
+            "icon": "developer_board"
         }
     ],
     "personal_pages": [
