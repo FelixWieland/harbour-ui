@@ -123,7 +123,7 @@ class Repositories extends React.Component {
     };
 
     filterRepos = (obj, value) => {
-        if (!obj.name.search(this.searchValue)) {
+        if (!obj.name.search(new RegExp(this.searchValue, "i"))) {
             return true;
         } else {
             return false;

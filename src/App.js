@@ -21,6 +21,7 @@ import Settings from './components/Settings'
 import LegalNotice from './components/LegalNotice'
 import NotFound from './components/NotFound'
 import Development from './components/Development';
+import Login from './components/Login';
 
 const theme = createMuiTheme({
   palette: {
@@ -31,8 +32,8 @@ const theme = createMuiTheme({
       // contrastText: will be calculated to contrast with palette.primary.main
     },
     secondary: {
-      light: '#20B6B0',
-      main: '#2294F3',
+      light: '#2294F3',
+      main: '#FFFFFF',
       // dark: will be calculated from palette.secondary.main,
       contrastText: '#ffcc00',
     },
@@ -64,7 +65,7 @@ class App extends Component {
             <Navbar clipped={this.state.clipped} />
             <div className={this.getWorkingArea()} >
               <Switch>
-                <Route path="/" component={Dashboard} exact />
+                <Route path="/" component={Login} exact />
 
                 <Route path="/Dashboard" component={Dashboard} />
                 <Route path="/Repositories" component={Repositories} />

@@ -14,15 +14,15 @@ const styles = theme => ({
         left: 0,
         width: "100%",
         zIndex: 1101,
-        height: 2.5,
+        height: 3,
     },
     onTopInvisible: {
         position: "absolute",
         top: 0,
         left: 0,
         width: "100%",
-        zIndex: 1100,
-        height: 2.5
+        zIndex: 1090,
+        height: 3
     }
 });
 
@@ -33,8 +33,8 @@ class LoadBar extends React.Component {
         super(props);
         this.state = {
             completed: this.props.state,
-            color: "primary",
-            class: this.props.onTop
+            color: "secondary",
+            class: this.props.classes.onTop
         };
     }
 
@@ -54,15 +54,20 @@ class LoadBar extends React.Component {
         } else {
             this.setState({
                 completed: nextProps.state,
-                class: this.props.onTopInvisible,
             });
+            var that = this;
+            setTimeout(function () {
+                that.setState({
+                    class: that.props.classes.onTopInvisible,
+                });
+            }, 700);
         }
     }
 
     render() {
         const { classes } = this.props;
         return (
-            <LinearProgress color={this.state.color} className={classes.onTop} variant="determinate" value={this.state.completed} />
+            <LinearProgress color={this.state.color} className={this.state.class} variant="determinate" value={this.state.completed} />
         );
     }
 }

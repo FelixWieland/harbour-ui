@@ -7,21 +7,31 @@
 ## Build a Docker Container for development
 
 **1. Install Node Modules**
-To install the Node Modules for React run:
+To install the Node Modules for React run following commands:
+
+1. Initial:
 ```Bash
 npm install
 ```
-Then install Googles Material UI with:
+2. Material UI:
 ```Bash
 npm install @material-ui/core
 ```
-Then install Googles SVG Icons with:
+3. Googles SVG Icons:
 ```Bash
 npm install @material-ui/icons
 ```
-Then install React Router Dom with:
+4. React Router Dom with:
 ```Bash
 npm install react-router-dom
+```
+5. nodegit:
+```Bash
+npm install nodegit
+```
+6. react-monaco-editor:
+```Bash
+npm install react-monaco-editor
 ```
 
 **2. Build the Container**

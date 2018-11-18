@@ -8,7 +8,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: #eeeeee !important;
   padding-top: 60px;
-  overflow-x: hidden !important; 
+  overflow-x: hidden !important;
+  height: calc(100vh + 0.5px);
 }
 
 code {

@@ -39,21 +39,21 @@ const styles = theme => ({
         padding: theme.spacing.unit * 2,
     },
     card_small: {
-        maxWidth: 200,
+        maxWidth: "25%",
         height: 250,
         width: "100%",
         position: "relative",
         transition: "all .3s"
     },
     card_medium: {
-        maxWidth: 350,
+        maxWidth: "50%",
         height: 250,
         width: "100%",
         position: "relative",
         transition: "all .3s"
     },
     card_large: {
-        maxWidth: 450,
+        maxWidth: "100%",
         height: 250,
         width: "100%",
         position: "relative",
@@ -108,7 +108,7 @@ class GuttersGrid extends React.Component {
         import('../' + dashboardAPI).then(
             res => this.setState({
                 dashboardAPI: res,
-                loadState: 100
+                loadState: 100,
             }),
         );
     };

@@ -9,6 +9,9 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 /*Own Components*/
 import DevBlackBoard from './Development/DevBlackBoard';
 import TerminalBar from './Development/TerminalBar';
+import WebIDE from './Development/WebIDE';
+
+import Git from '../logic/ide/git';
 
 const styles = {
 
@@ -16,13 +19,19 @@ const styles = {
 
 class Development extends React.Component {
 
+    constructor() {
+        super();
+        var usrObj = Git;
+    }
+
+    //<TerminalBar />
     render() {
         return (
             <React.Fragment>
                 <Switch>
                     <Route path="/Development/" component={DevBlackBoard} exact />
+                    <Route path="/Development/IDE" component={WebIDE} exact />
                 </Switch>
-                <TerminalBar />
             </React.Fragment>
         );
     }
