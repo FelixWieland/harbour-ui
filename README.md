@@ -25,13 +25,17 @@ npm install @material-ui/icons
 ```Bash
 npm install react-router-dom
 ```
-5. nodegit:
+5. simple-git:
 ```Bash
-npm install nodegit
+npm install simple-git
 ```
 6. react-monaco-editor:
 ```Bash
 npm install react-monaco-editor
+```
+7. Material UI/lab:
+```Bash
+npm install @material-ui/lab
 ```
 
 **2. Build the Container**

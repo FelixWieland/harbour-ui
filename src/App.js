@@ -5,9 +5,10 @@ import './App.css';
 
 /*Material UI Components*/
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { theme, themesJSON } from './themes';
 
 /*React Router*/
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, withRouter, Redirect } from 'react-router-dom';
 
 /*Own Components*/
 import Navbar from './components/Navbar'
@@ -23,23 +24,7 @@ import NotFound from './components/NotFound'
 import Development from './components/Development';
 import Login from './components/Login';
 
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      // light: will be calculated from palette.primary.main,
-      main: '#2294F3',
-      // dark: will be calculated from palette.primary.main,
-      // contrastText: will be calculated to contrast with palette.primary.main
-    },
-    secondary: {
-      light: '#2294F3',
-      main: '#FFFFFF',
-      // dark: will be calculated from palette.secondary.main,
-      contrastText: '#ffcc00',
-    },
-    // error: will use the default color
-  },
-});
+var auth = false;
 
 class App extends Component {
 
@@ -48,7 +33,13 @@ class App extends Component {
 
     this.state = {
       clipped: false,
+      themes: theme,
+      active_theme: theme["std_light_theme"],
+      active_theme_name: "std_light_theme",
     }
+
+    console.log(this.state.active_theme);
+    console.log(theme);
   };
 
   getWorkingArea = () => {
@@ -57,33 +48,67 @@ class App extends Component {
     }
   }
 
+  setSettings = (settings) => {
+    this.setState(settings);
+  }
+
+  setAuth = (state) => {
+    auth = state;
+  }
+
   render() {
+    if (auth == false && !window.location.href.includes("/login")) {
+      window.location = "/login";
+      return;
+    }
+
     return (
       <BrowserRouter>
-        <MuiThemeProvider theme={theme}>
-          <div className="App">
-            <Navbar clipped={this.state.clipped} />
-            <div className={this.getWorkingArea()} >
-              <Switch>
-                <Route path="/" component={Login} exact />
+        <MuiThemeProvider theme={this.state.active_theme}>
+          {auth == true &&
+            <div className="App">
+              < Navbar clipped={this.state.clipped} />
+              <div className={this.getWorkingArea()} >
+                <Switch>
 
-                <Route path="/Dashboard" component={Dashboard} />
-                <Route path="/Repositories" component={Repositories} />
-                <Route path="/Services" component={Services} />
-                <Route path="/BugTracker" component={BugTracker} />
-                <Route path="/Development" component={Development} />
-                <Route path="/Profile" component={Profile} />
-                <Route path="/Inbox" component={Inbox} />
-                <Route path="/Settings" component={Settings} />
-                <Route path="/LegalNotice" component={LegalNotice} />
-                <Route path="/Profile" component={Profile} />
+                  <Route path="/" component={Dashboard} exact />
 
-                <Route component={NotFound} />
-              </Switch>
+                  <Route path="/Dashboard" component={Dashboard} />
+                  <Route path="/Repositories" component={Repositories} />
+                  <Route path="/Services" component={Services} />
+                  <Route path="/BugTracker" component={BugTracker} />
+                  <Route path="/Development" component={Development} />
+                  <Route path="/Profile" component={Profile} />
+                  <Route path="/Inbox" component={Inbox} />
+                  <Route path="/Settings" component={() => (<Settings
+                    getSettings={this.state}
+                    setSettings={this.setSettings} />)} />
+                  <Route path="/LegalNotice" component={LegalNotice} />
+                  <Route path="/Profile" component={Profile} />
+                  {auth == false &&
+                    <Route path="/Login" component={() => (<Login
+                      setAuth={this.setAuth}
+                      getAuth={auth} />)} />
+                  }
+
+                  <Route component={NotFound} />
+
+                </Switch>
+              </div>
             </div>
-          </div>
+          } {auth == false &&
+            <div className="App">
+              <div className={this.getWorkingArea()} >
+                <Switch>
+                  <Route component={() => (<Login
+                    setAuth={this.setAuth}
+                    getAuth={auth} />)} />
+                </Switch>
+              </div>
+            </div>
+          }
         </MuiThemeProvider>
-      </BrowserRouter>
+      </BrowserRouter >
     );
   }
 }

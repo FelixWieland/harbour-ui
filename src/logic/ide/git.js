@@ -1,4 +1,4 @@
-//import nodegit from 'nodegit';
+import simpleGit from 'simple-git';
 
 /*
 Class for IDE-Component
@@ -11,6 +11,7 @@ class Git {
 
     constructor(username) {
         //username
+
     }
 
 }

@@ -10,7 +10,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { NavLink } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 
 /*Own Components*/
 import SideMenu from './SideMenu'
@@ -84,6 +84,10 @@ class MenuAppBar extends React.Component {
     setChildRef(node) {
         this.childNode = node;
     };
+
+    logout = () => {
+        this.props.history.push("/logout");
+    }
 
     render() {
         const { classes } = this.props;

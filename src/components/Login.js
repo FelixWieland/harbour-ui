@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 /*Material UI Components*/
 import { withStyles } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import { BrowserRouter, Redirect } from 'react-router-dom';
 
 /*Own Components*/
 
@@ -25,10 +26,20 @@ class Login extends React.Component {
         super(props);
     }
 
+    login = () => {
+        this.props.setAuth(true);
+        window.location = "/Dashboard"
+    }
+
+    componentDidMount = () => {
+        this.render();
+    }
+
     render() {
         const { classes } = this.props;
         return (
-            <p>Login</p>
+            <p onClick={() => this.login()}>Login</p>
+
         );
     }
 }
