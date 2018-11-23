@@ -34,7 +34,7 @@ class App extends Component {
     this.state = {
       clipped: false,
       themes: theme,
-      active_theme: theme["std_light_theme"],
+      active_theme: theme["std_light_theme"], //STD Theme
       active_theme_name: "std_light_theme",
     }
 
