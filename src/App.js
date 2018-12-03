@@ -9,6 +9,7 @@ import { theme, themesJSON } from './themes';
 
 /*React Router*/
 import { BrowserRouter, Route, Switch, withRouter, Redirect } from 'react-router-dom';
+import Auth from './auth';
 
 /*Own Components*/
 import Navbar from './components/Navbar'
@@ -24,8 +25,6 @@ import NotFound from './components/NotFound'
 import Development from './components/Development';
 import Login from './components/Login';
 
-var auth = false;
-
 class App extends Component {
 
   constructor(props) {
@@ -36,6 +35,7 @@ class App extends Component {
       themes: theme,
       active_theme: theme["std_light_theme"], //STD Theme
       active_theme_name: "std_light_theme",
+      auth: new Auth("demo", "demo", "demo", "demo"),
     }
 
     console.log(this.state.active_theme);
@@ -52,22 +52,22 @@ class App extends Component {
     this.setState(settings);
   }
 
-  setAuth = (state) => {
-    auth = state;
+  setAuth = (obj) => {
+    this.setState({ auth: obj });
   }
 
   render() {
-    if (auth == false && !window.location.href.includes("/login")) {
-      window.location = "/login";
+    if (this.state.auth == false && !window.location.href.includes("/Login")) {
+      window.location = "/Login";
       return;
     }
 
     return (
       <BrowserRouter>
         <MuiThemeProvider theme={this.state.active_theme}>
-          {auth == true &&
+          {this.state.auth != undefined &&
             <div className="App">
-              < Navbar clipped={this.state.clipped} />
+              <Navbar clipped={this.state.clipped} />
               <div className={this.getWorkingArea()} >
                 <Switch>
 
@@ -85,24 +85,22 @@ class App extends Component {
                     setSettings={this.setSettings} />)} />
                   <Route path="/LegalNotice" component={LegalNotice} />
                   <Route path="/Profile" component={Profile} />
-                  {auth == false &&
-                    <Route path="/Login" component={() => (<Login
-                      setAuth={this.setAuth}
-                      getAuth={auth} />)} />
-                  }
+                  <Route path="/Login" component={() => (<Login
+                    setAuth={this.setAuth}
+                    getAuth={this.state.auth} />)} />
 
                   <Route component={NotFound} />
 
                 </Switch>
               </div>
             </div>
-          } {auth == false &&
+          } {this.state.auth == undefined &&
             <div className="App">
               <div className={this.getWorkingArea()} >
                 <Switch>
                   <Route component={() => (<Login
                     setAuth={this.setAuth}
-                    getAuth={auth} />)} />
+                    getAuth={this.state.auth} />)} />
                 </Switch>
               </div>
             </div>

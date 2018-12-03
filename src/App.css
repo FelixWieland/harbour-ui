@@ -40,3 +40,21 @@
   width: calc(100% - 250px);
   margin-left: 250px;
 }
+
+#loginCanvas {
+  width:100%;
+  height:100%;
+  overflow: hidden;
+  background-color: #fff;
+  cursor: ns-resize;
+  outline:0;
+  margin: 0;
+  padding: 0;
+}
+
+.wave {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+}

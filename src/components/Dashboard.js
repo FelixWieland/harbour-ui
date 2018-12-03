@@ -90,7 +90,7 @@ class GuttersGrid extends React.Component {
         setLoadBar: undefined,
         loadState: 0,
         deleteDialog: false,
-        deleteID: "007",
+        deleteID: undefined,
     };
 
     constructor(props) {
@@ -144,25 +144,34 @@ class GuttersGrid extends React.Component {
     }
 
     deleteBoard = (id) => {
-
+        for (var i = 0; i < this.state.dashboardAPI.default.boards.length; i++) {
+            console.log(this.state.dashboardAPI.default.boards[i]);
+        }
     }
 
-    showHideDeleteDialog = () => {
+    showHideDeleteDialog = (id) => {
         if (this.state.deleteDialog) {
             this.state.deleteDialog = false;
+            this.state.deleteID = undefined;
         } else {
             this.state.deleteDialog = true;
+            this.state.deleteID = id;
         }
         this.forceUpdate();
     }
 
-    handleDialogUpdate = (what) => {
+    handleDialogUpdate = (what, id) => {
         if (what == "CLOSE") {
             this.state.deleteDialog = false;
             this.state.deleteID = undefined;
+        } else if (what == "DELETE") {
+            this.state.deleteDialog = false;
+            this.deleteBoard(this.state.deleteID);
+            //send delete Action to API
         }
         this.forceUpdate();
     }
+
 
     render() {
         const { classes } = this.props;
@@ -183,12 +192,12 @@ class GuttersGrid extends React.Component {
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={() => this.handleDialogUpdate("CLOSE")} color="primary">
+                        <Button onClick={() => this.handleDialogUpdate("CLOSE", undefined)} color="primary">
                             Abbrechen
                             </Button>
-                        <Button onClick={() => this.handleDialogUpdate()} color="primary" autoFocus>
+                        <Button onClick={() => this.handleDialogUpdate("DELETE", id)} color="primary" autoFocus>
                             Löschen
-                            </Button>
+                        </Button>
                     </DialogActions>
                 </Dialog >
             );

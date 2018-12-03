@@ -133,7 +133,7 @@ class MenuAppBar extends React.Component {
                                     <NavLink className="clearAll" to={"/Profile"}>
                                         <MenuItem>Profile</MenuItem>
                                     </NavLink>
-                                    <NavLink className="clearAll" to={"/Logout"}>
+                                    <NavLink className="clearAll" to={"/Login"}>
                                         <MenuItem>Logout</MenuItem>
                                     </NavLink>
                                 </Menu>
