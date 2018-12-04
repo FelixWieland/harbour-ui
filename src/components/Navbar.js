@@ -62,15 +62,20 @@ class MenuAppBar extends React.Component {
     };
 
     handleMenu = event => {
+        /*
         this.setState({
             anchorEl: event.currentTarget,
             show_sidebar: false
+        });*/
+
+        this.setState({
+            show_sidebar: true
         });
+
     };
 
     handleClose = () => {
         this.setState({
-            anchorEl: null,
             show_sidebar: false
         });
     };
@@ -89,6 +94,10 @@ class MenuAppBar extends React.Component {
         this.props.history.push("/logout");
     }
 
+    handleStateChange = (state) => {
+        this.setState(state);
+    }
+
     render() {
         const { classes } = this.props;
         const { auth, anchorEl } = this.state;
@@ -97,7 +106,7 @@ class MenuAppBar extends React.Component {
         return (
             <div className={classes.root}>
                 <CssBaseline />
-                <SideMenu clipped={this.props.clipped} show={this.state.show_sidebar} />
+                <SideMenu clipped={this.props.clipped} show={this.state.show_sidebar} handleStateChange={this.handleStateChange} />
                 <AppBar position="fixed">
                     <Toolbar variant="dense">
                         <IconButton className={classes.menuButton} onClick={this.handleMenuDrawer} color="inherit" aria-label="Menu">

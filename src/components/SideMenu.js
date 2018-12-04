@@ -50,7 +50,7 @@ class SideMenu extends React.Component {
     };
 
     componentWillReceiveProps = (props) => {
-        if (props.show !== this.state.left) {
+        if (props.show !== this.state.left && props.show != null) {
             this.setState({ left: props.show });
             this.props = props;
         }
@@ -68,6 +68,9 @@ class SideMenu extends React.Component {
     toggleDrawer = (open) => () => {
         this.setState({
             left: open
+        });
+        this.props.handleStateChange({
+            show_sidebar: open
         });
     };
 
