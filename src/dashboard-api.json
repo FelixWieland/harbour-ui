@@ -8,55 +8,91 @@
             "name": "Commits",
             "internal_name": "commit_statistics",
             "type": "commit_counts",
-            "size": "large"
+            "grid_size": {
+                "sm": 12,
+                "md": 12,
+                "lg": 12
+            }
         },
         {
             "name": "Pods",
             "internal_name": "pod_statistics",
             "type": "pod_counts",
-            "size": "medium"
+            "grid_size": {
+                "sm": 6,
+                "md": 6,
+                "lg": 6
+            }
         },
         {
             "name": "Latest Commit",
             "internal_name": "latest_commit_statistic",
             "type": "latest_commit",
-            "size": "small"
+            "grid_size": {
+                "sm": 6,
+                "md": 6,
+                "lg": 3
+            }
         },
         {
             "name": "Demo Board 1",
             "internal_name": "demo_board_1",
             "type": "demo",
-            "size": "small"
+            "grid_size": {
+                "sm": 6,
+                "md": 6,
+                "lg": 3
+            }
         },
         {
             "name": "Demo Board 2",
             "internal_name": "demo_board_2",
             "type": "demo",
-            "size": "large"
+            "grid_size": {
+                "sm": 6,
+                "md": 6,
+                "lg": 4
+            }
         },
         {
             "name": "Demo Board 3",
             "internal_name": "demo_board_3",
             "type": "demo",
-            "size": "medium"
+            "grid_size": {
+                "sm": 6,
+                "md": 6,
+                "lg": 4
+            }
         },
         {
             "name": "Demo Board 4",
             "internal_name": "demo_board_4",
             "type": "demo",
-            "size": "large"
+            "grid_size": {
+                "sm": 6,
+                "md": 6,
+                "lg": 4
+            }
         },
         {
             "name": "Demo Board 5",
             "internal_name": "demo_board_5",
             "type": "demo",
-            "size": "medium"
+            "grid_size": {
+                "sm": 6,
+                "md": 6,
+                "lg": 4
+            }
         },
         {
             "name": "Demo Board 6",
             "internal_name": "demo_board_6",
             "type": "demo",
-            "size": "large"
+            "grid_size": {
+                "sm": 6,
+                "md": 6,
+                "lg": 4
+            }
         }
     ]
 }

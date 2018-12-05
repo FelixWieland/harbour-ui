@@ -21,6 +21,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
+import Board from './Board';
 
 /*Own Components*/
 
@@ -84,13 +85,14 @@ const styles = theme => ({
 
 const dashboardAPI = "dashboard-api.json";
 
-class GuttersGrid extends React.Component {
+class Dashboard extends React.Component {
     state = {
         spacing: '16',
         setLoadBar: undefined,
         loadState: 0,
         deleteDialog: false,
         deleteID: undefined,
+        boardState: {},
     };
 
     constructor(props) {
@@ -131,6 +133,7 @@ class GuttersGrid extends React.Component {
     }
 
     extendBoard = (index) => {
+
         if (this.state.dashboardAPI.default.boards[index].size_copy == undefined) {
             this.state.dashboardAPI.default.boards[index].size_copy = this.state.dashboardAPI.default.boards[index].size;
         }
@@ -202,7 +205,7 @@ class GuttersGrid extends React.Component {
                 </Dialog >
             );
         };
-
+        //className={this.getDashboardSizes(value.size)}
         return (
             <React.Fragment>
                 <LoadBar state={this.state.loadState} />
@@ -210,7 +213,31 @@ class GuttersGrid extends React.Component {
                     <Grid item xs={12}>
                         <Grid container className={classes.demo} justify="center" spacing={Number(spacing)}>
                             {this.getDashboardData().map((value, index) => (
-                                <Grid key={index} className={this.getDashboardSizes(value.size)} item>
+                                <Board data={value} />
+                            ))}
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </React.Fragment >
+        );
+    }
+}
+
+Dashboard.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(Dashboard);
+
+/*
+return (
+            <React.Fragment>
+                <LoadBar state={this.state.loadState} />
+                <Grid container className={classes.root} spacing={16}>
+                    <Grid item xs={12}>
+                        <Grid container className={classes.demo} justify="center" spacing={Number(spacing)}>
+                            {this.getDashboardData().map((value, index) => (
+                                <Grid key={index} className={} xs={12} sm={value.grid_size.sm} md={value.grid_size.md} lg={value.grid_size.lg} item>
                                     <Card className={classes.paper}>
                                         <CardContent>
                                             <Typography className={classes.title} color="textSecondary" gutterBottom>
@@ -238,11 +265,4 @@ class GuttersGrid extends React.Component {
                 {deleteDialog("ID")}
             </React.Fragment >
         );
-    }
-}
-
-GuttersGrid.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(GuttersGrid);
+*/

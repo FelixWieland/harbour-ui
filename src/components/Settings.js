@@ -15,13 +15,19 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
 
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import Typography from '@material-ui/core/Typography';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
 /*Own Components*/
 
 const styles = theme => ({
     root: {
         flexGrow: 1,
-        paddingLeft: 5,
-        paddingRight: 5,
+        paddingLeft: 10,
+        paddingRight: 10,
     },
     paper: {
         padding: theme.spacing.unit * 2,
@@ -122,6 +128,50 @@ class Settings extends React.Component {
 
         return (
             <div className={classes.root}>
+                <Grid container className={classes.root} spacing={16}>
+                    <Grid item xs={12}>
+                        <Grid container className={classes.demo} justify="center" spacing={2}>
+                            <Grid key={0} xs={12} sm={12} md={8} lg={8} item>
+                                <ExpansionPanel>
+                                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                                        <Typography className={classes.heading}>Appearance</Typography>
+                                    </ExpansionPanelSummary>
+                                    <ExpansionPanelDetails>
+                                        <Typography>
+                                            {theme_setting}
+                                        </Typography>
+                                    </ExpansionPanelDetails>
+                                </ExpansionPanel>
+                                <ExpansionPanel>
+                                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                                        <Typography className={classes.heading}>Development</Typography>
+                                    </ExpansionPanelSummary>
+                                    <ExpansionPanelDetails>
+                                        <Typography>
+                                            --
+                                        </Typography>
+                                    </ExpansionPanelDetails>
+                                </ExpansionPanel>
+                                <ExpansionPanel>
+                                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                                        <Typography className={classes.heading}>Notifications</Typography>
+                                    </ExpansionPanelSummary>
+                                    <ExpansionPanelDetails>
+                                        <Typography>
+                                            --
+                                        </Typography>
+                                    </ExpansionPanelDetails>
+                                </ExpansionPanel>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Grid>
+
+            </div>
+        );
+
+        /*return (
+            <div className={classes.root}>
                 <Grid container spacing={8}>
                     <Grid className={classes.gridItem} item xs={gridSizes.xs} sm={gridSizes.sm} md={gridSizes.md} lg={gridSizes.lg} >
                         <List className={classes.list_root} subheader={<li />}>
@@ -179,7 +229,7 @@ class Settings extends React.Component {
                     </Grid>
                 </Grid>
             </div>
-        );
+        );*/
     }
 }
 

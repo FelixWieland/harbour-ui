@@ -17,6 +17,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import green from '@material-ui/core/colors/green';
 import Auth from '../auth';
 import Wave from './Wave';
+import { Divider } from '@material-ui/core';
 
 /*Own Components*/
 
@@ -40,6 +41,7 @@ const styles = theme => ({
         height: "100vh",
         width: "100%",
         top: 0,
+        left: 0,
     },
     input: {
         width: "100%",
