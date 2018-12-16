@@ -3,55 +3,96 @@
         "version": "0.1",
         "description": "This provides the SideMenu for the Harbour Page"
     },
-    "module_pages": [
+    "navigation": [
         {
-            "name": "Dashboard",
-            "internal_name": "Dashboard",
-            "icon": "dashboard"
+            "name": "Module",
+            "internal_name": "module_pages",
+            "elements": [
+                {
+                    "name": "Dashboard",
+                    "internal_name": "Dashboard",
+                    "icon": "dashboard"
+                },
+                {
+                    "name": "Repositories",
+                    "internal_name": "Repositories",
+                    "icon": "cloud"
+                },
+                {
+                    "name": "Services",
+                    "internal_name": "Services",
+                    "icon": "scatter_plot"
+                },
+                {
+                    "name": "Bug tracker",
+                    "internal_name": "BugTracker",
+                    "icon": "bug_report"
+                },
+                {
+                    "name": "Development",
+                    "internal_name": "Development",
+                    "icon": "developer_board"
+                },
+                {
+                    "name": "test_pages",
+                    "internal_name": "test_pages",
+                    "elements": [
+                        {
+                            "name": "test",
+                            "internal_name": "test",
+                            "icon": "dashboard"
+                        }
+                    ]
+                }
+            ]
         },
         {
-            "name": "Repositories",
-            "internal_name": "Repositories",
-            "icon": "cloud"
+            "name": "Persönlich",
+            "internal_name": "personal_pages",
+            "elements": [
+                {
+                    "name": "Profile",
+                    "internal_name": "Profile",
+                    "icon": "account_circle"
+                },
+                {
+                    "name": "Inbox",
+                    "internal_name": "Inbox",
+                    "icon": "inbox"
+                }
+            ]
         },
         {
-            "name": "Services",
-            "internal_name": "Services",
-            "icon": "scatter_plot"
+            "name": "Verwaltung",
+            "internal_name": "management_pages",
+            "elements": [
+                {
+                    "name": "Nutzerverwaltung",
+                    "internal_name": "Usermanagement",
+                    "icon": "people"
+                }
+            ]
         },
         {
-            "name": "Bug tracker",
-            "internal_name": "BugTracker",
-            "icon": "bug_report"
-        },
-        {
-            "name": "Development",
-            "internal_name": "Development",
-            "icon": "developer_board"
-        }
-    ],
-    "personal_pages": [
-        {
-            "name": "Profile",
-            "internal_name": "Profile",
-            "icon": "account_circle"
-        },
-        {
-            "name": "Inbox",
-            "internal_name": "Inbox",
-            "icon": "inbox"
-        }
-    ],
-    "system_pages": [
-        {
-            "name": "Settings",
-            "internal_name": "Settings",
-            "icon": "settings"
-        },
-        {
-            "name": "Legal Notice",
-            "internal_name": "LegalNotice",
-            "icon": "copyright"
+            "name": "System",
+            "internal_name": "system_pages",
+            "elements": [
+                {
+                    "name": "Settings",
+                    "internal_name": "Settings",
+                    "icon": "settings"
+                },
+                {
+                    "name": "Marketplace",
+                    "internal_name": "Marketplace",
+                    "icon": "store"
+                },
+                {
+                    "name": "Legal Notice",
+                    "internal_name": "LegalNotice",
+                    "icon": "copyright"
+                }
+            ]
         }
     ]
 }

@@ -26,8 +26,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 const styles = theme => ({
     root: {
         flexGrow: 1,
-        paddingLeft: 10,
-        paddingRight: 10,
+        paddingLeft: 5,
+        paddingRight: 5,
     },
     paper: {
         padding: theme.spacing.unit * 2,

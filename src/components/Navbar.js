@@ -93,7 +93,8 @@ class Navbar extends React.Component {
     };
 
     logout = () => {
-        this.props.history.push("/logout");
+        window.sessionStorage.removeItem('auth');
+        window.location = '/';
     }
 
     handleStateChange = (state) => {
@@ -144,9 +145,7 @@ class Navbar extends React.Component {
                                     <NavLink className="clearAll" to={"/Profile"}>
                                         <MenuItem>Profile</MenuItem>
                                     </NavLink>
-                                    <NavLink className="clearAll" to={"/Login"}>
-                                        <MenuItem>Logout</MenuItem>
-                                    </NavLink>
+                                    <MenuItem onClick={() => this.logout()}>Logout</MenuItem>
                                 </Menu>
                             </div>
                         )}

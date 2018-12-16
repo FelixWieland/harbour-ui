@@ -6,11 +6,14 @@ import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import { Link } from 'react-router-dom';
+import Collapse from '@material-ui/core/Collapse';
 
 
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Icon from '@material-ui/core/Icon';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
 
 
 const styles = {
@@ -35,16 +38,22 @@ class SideMenu extends React.Component {
 
     state = {
         left: false,
+        changed: true,
     };
 
     constructor(props) {
         super(props);
         this.toggleDrawer = this.toggleDrawer.bind(this);
-        if (this.props.clipped == true) {
+        this.handleExpand = this.handleExpand.bind(this);
+        this.expanded = false;
+        if (this.props.clipped == 'permanent') {
             this.state.variant = "permanent";
             this.state.variantClass = "inBackground";
+        } else if (this.props.clipped == 'persistent') {
+            this.state.variant = "persistent";
+            this.state.variantClass = "inBackground";
         } else {
-            this.state.variant = "";
+            this.state.variant = "temporary";
             this.state.variantClass = "inForground";
         }
     };
@@ -57,52 +66,112 @@ class SideMenu extends React.Component {
     }
 
     componentDidMount = () => {
-        /*fetch(sideMenuApi)
-            .then(response => response.json())
-            .then(data => this.setState({ data }));*/
-        import('../' + sideMenuAPI).then(
-            res => this.setState({ sideMenuAPI: res }),
+        import('../' + sideMenuAPI).then(res => this.initializeNavigationState(res)
         );
     }
 
-    toggleDrawer = (open) => () => {
-        this.setState({
-            left: open
-        });
-        this.props.handleStateChange({
-            show_sidebar: open
-        });
+    toggleDrawer = (state) => () => {
+        if (this.expanded == true) {
+            this.expanded = false;
+            this.forceUpdate();
+        } else {
+            this.setState({
+                left: state
+            });
+            this.props.handleStateChange({
+                show_sidebar: state
+            });
+        }
+
     };
 
-    getSideMenuData = (type) => {
+    getSideMenuData = (type) => { //type
         try {
-            return this.state.sideMenuAPI.default[type];
+            return this.state.sideMenuAPI.default.navigation; //[type]
         } catch (ex) {
             return [] //empty list to escape error
         }
     }
-    /*onClick={() => this.navigation(obj.internal_name)}*/
+
+    handleExpand = (name) => {
+        this.state.navigation[name] = !this.state.navigation[name];
+        this.expanded = true;
+    }
+
+    initializeNavigationState = (res) => {
+
+        var init = {};
+
+        function recurHelper(data) {
+            if (data == undefined) {
+                return;
+            }
+            data.map(elm => {
+                if (elm.elements != undefined) {
+                    //is List in={this.state.open}
+                    //this.state.navigation[elm.internal_name] = false;
+                    init[elm.internal_name] = false;
+                    recurHelper(elm.elements)
+                }
+            });
+        }
+
+        recurHelper(res.default.navigation);
+        this.setState({
+            sideMenuAPI: res,
+            navigation: init,
+        })
+    }
+
     render() {
         const { classes } = this.props;
-        const sideList = (
-            <div className={classes.list}>
-                {["module_pages", "personal_pages", "system_pages"].map((pages, index) => (
-                    <React.Fragment>
-                        <Divider />
-                        <List>
-                            {this.getSideMenuData(pages).map((obj, index) => (
-                                <Link className="clearAll" to={"/" + obj.internal_name}>
-                                    <ListItem button key={index}  >
-                                        <ListItemIcon><Icon>{obj.icon}</Icon></ListItemIcon>
-                                        <ListItemText primary={obj.name} />
-                                    </ListItem>
-                                </Link>
-                            ))}
-                        </List>
-                    </React.Fragment>
-                ))}
-            </div>
-        );
+
+        let buildLists = (data) => {
+            var that = this;
+            function recurHelper(data) {
+                if (data == undefined) {
+                    return;
+                }
+                return data.map((elm) => {
+                    if (elm.elements != undefined) {
+                        //is List in={this.state.open}
+                        return (
+                            <React.Fragment>
+                                <ListItem button onClick={() => that.handleExpand(elm.internal_name)}>
+                                    <ListItemText primary={elm.name} />
+                                    {that.state.navigation[elm.internal_name] ? <ExpandLess /> : <ExpandMore />}
+                                </ListItem>
+                                <Collapse in={that.state.navigation[elm.internal_name]} timeout="auto" unmountOnExit>
+                                    <List>
+                                        {recurHelper(elm.elements)}
+                                    </List>
+                                </Collapse>
+                            </React.Fragment>
+                        );
+                    } else {
+                        //is link
+                        return (
+                            <Link className="clearAll" to={"/" + elm.internal_name}>
+                                <ListItem button >
+                                    <ListItemIcon><Icon>{elm.icon}</Icon></ListItemIcon>
+                                    <ListItemText primary={elm.name} />
+                                </ListItem>
+                            </Link>
+                        )
+                    }
+                });
+            }
+
+            return recurHelper(data);
+        }
+
+        const data = this.getSideMenuData();
+        var list;
+        if (data != []) {
+            list = buildLists(data);
+        } else {
+            list = [];
+        }
 
         return (
             <div>
@@ -113,22 +182,15 @@ class SideMenu extends React.Component {
                         onClick={this.toggleDrawer(false)}
                         onKeyDown={this.toggleDrawer(false)}
                     >
-                        {sideList}
+                        <div className={classes.list}>
+                            {list}
+                        </div>
                     </div>
                 </Drawer>
             </div>
         );
     }
 }
-/* onClose={this.toggleDrawer('left', false)}*/
-/* <div
-                        tabIndex={0}
-                        role="button"
-                        onClick={this.toggleDrawer('left', false)}
-                        onKeyDown={this.toggleDrawer('left', false)}
-                    >
-                        {sideList}
-                    </div> */
 
 SideMenu.propTypes = {
     classes: PropTypes.object.isRequired,

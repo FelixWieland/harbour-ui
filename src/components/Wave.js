@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { BrowserRouter, Redirect } from 'react-router-dom';
-import Auth from '../auth';
 
 /*Own Components*/
 
@@ -14,7 +13,7 @@ const styles = theme => ({
         position: "absolute",
         top: 0,
         left: 0,
-        width: "100%",
+        width: "10%",
         zIndex: 1101,
         height: 3,
     },
@@ -22,12 +21,11 @@ const styles = theme => ({
         position: "fixed",
         top: "0",
         height: "100vh",
-        width: "100%",
+        width: "101%",
         overflow: "hidden",
+        left: "-1px"
     }
 });
-
-var wavifyScript = "<script>$('#feel-the-wave').wavify({height: 80,bones: 4,amplitude: 60,color: '#B289EF',speed: .15});$('#feel-the-wave-two').wavify({height: 60,bones: 3,amplitude: 40,color: 'rgba(150, 97, 255, .8)',speed: .25});</script>";
 
 class Wave extends React.Component {
 

@@ -7,7 +7,7 @@
 ## Build a Docker Container for development
 
 **1. Install Node Modules**
-To install the Node Modules for React run following commands:
+To install the Node Modules for the Harbour-UI run following commands:
 
 1. Initial:
 ```Bash
@@ -36,6 +36,10 @@ npm install react-monaco-editor
 7. Material UI/lab:
 ```Bash
 npm install @material-ui/lab
+```
+8. React-Loadable:
+```Bash
+npm install react-loadable
 ```
 
 **2. Build the Container**

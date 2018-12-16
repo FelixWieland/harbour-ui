@@ -9,7 +9,6 @@ import { theme, themesJSON } from './themes';
 
 /*React Router*/
 import { BrowserRouter, Route, Switch, withRouter, Redirect } from 'react-router-dom';
-import Auth from './auth';
 
 /*Own Components*/
 import Navbar from './components/Navbar'
@@ -24,23 +23,34 @@ import LegalNotice from './components/LegalNotice'
 import NotFound from './components/NotFound'
 import Development from './components/Development';
 import Login from './components/Login';
+import Marketplace from './components/Marketplace';
+import Usermanagement from './components/Usermanagement';
+import ModuleLoader from './ModuleLoader';
 
 class App extends Component {
 
   constructor(props) {
     super(props);
 
+    this.modules = {};
+
     this.state = {
-      clipped: false,
+      clipped: 'temporary', //"permanent (not fully working)","persistent (not fully working)","temporary"
       themes: theme,
       active_theme: theme["std_light_theme"], //STD Theme
       active_theme_name: "std_light_theme",
-      auth: new Auth("demo", "demo", "demo", "demo"),
     }
-
-    console.log(this.state.active_theme);
-    console.log(theme);
   };
+
+  componentDidMount = () => {
+    require("./moduleAPI.json").modules.map((value, index) => {
+      this.modules[value.name] = require("./components/" + value.path + "/Root");
+    });
+  };
+
+  modulesLoaded = () => {
+    console.log(this.modules)
+  }
 
   getWorkingArea = () => {
     if (this.state.clipped == true) {
@@ -57,15 +67,11 @@ class App extends Component {
   }
 
   render() {
-    if (this.state.auth == false && !window.location.href.includes("/Login")) {
-      window.location = "/Login";
-      return;
-    }
 
-    return (
-      <BrowserRouter>
-        <MuiThemeProvider theme={this.state.active_theme}>
-          {this.state.auth != undefined &&
+    if (window.sessionStorage.getItem('auth') != undefined) {
+      return (
+        <BrowserRouter>
+          <MuiThemeProvider theme={this.state.active_theme}>
             <div className="App">
               <Navbar clipped={this.state.clipped} />
               <div className={this.getWorkingArea()} >
@@ -85,43 +91,48 @@ class App extends Component {
                     setSettings={this.setSettings} />)} />
                   <Route path="/LegalNotice" component={LegalNotice} />
                   <Route path="/Profile" component={Profile} />
-                  <Route path="/Login" component={() => (<Login
-                    setAuth={this.setAuth}
-                    getAuth={this.state.auth} />)} />
+                  <Route path="/Marketplace" component={Marketplace} />
+                  <Route path="/Usermanagement" component={Usermanagement} />
+
+                  <Route path="/Modules" component={() => (<p>ModulePreview</p>)} exact />
+                  <Route path="/Module/:Modulename" component={() => (<ModuleLoader />)} />
 
                   <Route component={NotFound} />
-
                 </Switch>
               </div>
             </div>
-          } {this.state.auth == undefined &&
+          </MuiThemeProvider>
+        </BrowserRouter >
+      );
+    } else {
+      return (
+        <BrowserRouter>
+          <MuiThemeProvider theme={this.state.active_theme}>
             <div className="App">
               <div className={this.getWorkingArea()} >
                 <Switch>
-                  <Route component={() => (<Login
-                    setAuth={this.setAuth}
-                    getAuth={this.state.auth} />)} />
+                  <Route component={Login} />
                 </Switch>
               </div>
             </div>
-          }
-        </MuiThemeProvider>
-      </BrowserRouter >
-    );
+          </MuiThemeProvider>
+        </BrowserRouter>
+      );
+    }
   }
 }
 
 /*
 <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            <p>
-              Edit <code>src/App.js</code> and save to reload. Please work.
-          </p>
-            <Button variant="contained" color="primary">
-              Hello World
-          </Button>
-            <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">Learn React</a>
-          </header>
-*/
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.js</code> and save to reload. Please work.
+  </p>
+        <Button variant="contained" color="primary">
+          Hello World
+  </Button>
+        <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">Learn React</a>
+      </header>
+      */
 
 export default App;

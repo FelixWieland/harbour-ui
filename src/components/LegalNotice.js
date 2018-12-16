@@ -6,14 +6,23 @@ import { withStyles } from '@material-ui/core/styles';
 /*Own Components*/
 
 const styles = {
-
+    root: {
+        flexGrow: 1,
+        paddingLeft: 5,
+        paddingRight: 5
+    }
 };
 
 class LegalNotice extends React.Component {
 
     render() {
+
+        const { classes } = this.props;
+
         return (
-            <p><br></br><br></br><br></br>Legal Notice</p>
+            <div className={classes.root}>
+                Legal Notice
+            </div >
         );
     }
 }
