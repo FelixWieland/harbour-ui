@@ -96,7 +96,7 @@ class Login extends React.Component {
         if (props.getAuth != undefined) {
             props.setAuth(undefined);
         }
-        this.harbourauthapi = "http://192.168.178.74:5000/"
+        this.harbourauthapi = "http://192.168.178.74:5000/";
     }
 
     login = () => {

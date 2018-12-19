@@ -21,7 +21,7 @@ var themes = {
             },
             background: {
                 default: '#eeeeee'
-            }
+            },
             // error: will use the default color
         },
         //shadows: ["none"]
