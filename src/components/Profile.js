@@ -13,11 +13,18 @@ import Tab from '@material-ui/core/Tab';
 /*Own Components*/
 
 const styles = theme => ({
+    test: {
+        backgroundColor: theme.palette.primary.main,
+    },
     well: {
         backgroundColor: "white",
     },
-    topMargin: {
-        marginTop: 35,
+    headerMargin: {
+        marginTop: 30,
+        marginBottom: 55,
+        [theme.breakpoints.only('xs')]: {
+            marginBottom: 5,
+        },
     },
     relativeWrapper: {
         position: "relative",
@@ -27,26 +34,27 @@ const styles = theme => ({
         width: 250,
         height: 250,
         boxShadow: [
-            [0, 1, 3, 'rgba(0,0,0,0.12)'],
-            [0, 1, 2, 'rgba(0,0,0,0.24)']
+            theme.shadows[0],
+            theme.shadows[0],
         ],
         transition: ['box-shadow'],
         transitionDuration: 200,
+
     },
     profileAvatarEditable: {
         margin: 10,
         width: 250,
         height: 250,
         boxShadow: [
-            [0, 1, 3, 'rgba(0,0,0,0.12)'],
-            [0, 1, 2, 'rgba(0,0,0,0.24)']
+            theme.shadows[1],
+            theme.shadows[1],
         ],
         transition: ['box-shadow'],
         transitionDuration: 200,
         '&:hover': {
             boxShadow: [
-                [0, 14, 28, 'rgba(0,0,0,0.25)'],
-                [0, 10, 10, 'rgba(0,0,0,0.22)'],
+                theme.shadows[2],
+                theme.shadows[2],
             ],
             cursor: "pointer",
         }
@@ -58,8 +66,8 @@ const styles = theme => ({
         backgroundColor: "#FFFFFF",
         padding: 10,
         boxShadow: [
-            [0, 1, 3, 'rgba(0,0,0,0.12)'],
-            [0, 1, 2, 'rgba(0,0,0,0.24)']
+            theme.shadows[1],
+            theme.shadows[1],
         ],
         [theme.breakpoints.only('xs')]: {
             position: "relative",
@@ -82,6 +90,10 @@ const styles = theme => ({
         role: {
             fontSize: 18,
         }
+    },
+    tab: {
+        backgroundColor: theme.palette.secondary.main,
+        paddingTop: 15,
     }
 });
 
@@ -96,84 +108,85 @@ class Profile extends React.Component {
                 username: "WielandF",
                 email: "demo.mail@server.de",
                 role: "Developer",
-            }
+            },
+            pages: [
+                "Standard",
+                "Projects",
+                "Calender",
+                "Settings"
+            ],
+            activeTab: 0,
         }
     }
 
-    dummy = () => {
-
+    changeTab = (event, value) => {
+        this.setState({ activeTab: value });
     }
+
+    createTab = (value) => {
+        return (
+            <p>{value}</p>
+        );
+    }
+
 
     render() {
 
         const { classes } = this.props;
         const { spacing } = this.state;
 
-        var value = ""
+        var createHeader = () => {
+            return (
+                <Grid item xs={12} md={10} sm={10} lg={10}>
+                    <Grid container className={classes.headerMargin} spacing={Number(spacing)}>
+                        <Grid item xs={12} sm={5} md={5} lg={3} className={classes.avatarHeight} >
+                            <Grid container spacing={Number(spacing)} justify="center">
+                                <div className={classes.relativeWrapper}>
+                                    <Avatar alt="Remy Sharp" src="/avatar.png" style={{ alignSelf: 'center' }} className={classes.profileAvatarEditable} />
+                                    <div className={classes.escapedElement}>
+                                        <p className={classes.profileName}>{this.state.profile.username}</p>
+                                        <p className={classes.profileEmail}>
+                                            <Link to={"/"}>
+                                                {this.state.profile.email}
+                                            </Link>
+                                            &nbsp;-&nbsp;
+                                                <span className={classes.profileEmail.role}>{this.state.profile.role}</span>
+                                        </p>
+                                    </div>
+
+                                </div>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Grid>);
+        }
 
         return (
             <React.Fragment>
                 <Grid container className={classes.root} spacing={16} justify="center">
-                    <Grid item xs={12} md={10} sm={10} lg={10}>
-                        <Grid container className={classes.topMargin} spacing={Number(spacing)}>
-                            <Grid item xs={12} sm={5} md={5} lg={3} className={classes.avatarHeight} >
-                                <Grid container spacing={Number(spacing)} justify="center">
-                                    <div className={classes.relativeWrapper}>
-                                        <Avatar alt="Remy Sharp" src="/avatar.png" style={{ alignSelf: 'center' }} className={classes.profileAvatarEditable} />
-                                        <div className={classes.escapedElement}>
-                                            <p className={classes.profileName}>{this.state.profile.username}</p>
-                                            <p className={classes.profileEmail}>
-                                                <Link to={"/"}>
-                                                    {this.state.profile.email}
-                                                </Link>
-                                                &nbsp;-&nbsp;
-                                                <span className={classes.profileEmail.role}>{this.state.profile.role}</span>
-                                            </p>
-                                        </div>
-
-                                    </div>
-                                </Grid>
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                    <Grid item xs={12} md={10} sm={10} lg={10}>
-                        <Grid container className={classes.topMargin} justify="center" spacing={Number(spacing)}>
-                            <AppBar position="static" color="default">
+                    {createHeader()}
+                    <Grid item xs={11} md={10} sm={10} lg={10}>
+                        <Grid container justify="center" spacing={Number(spacing)}>
+                            <AppBar position="static" color="secondary">
                                 <Tabs
-                                    value={value}
-                                    onChange={this.dummy}
+                                    value={this.state.activeTab}
+                                    onChange={this.changeTab}
                                     indicatorColor="primary"
                                     textColor="primary"
                                     scrollable
                                     scrollButtons="auto"
                                 >
-                                    <Tab label="Item One" />
-                                    <Tab label="Item Two" />
-                                    <Tab label="Item Three" />
-                                    <Tab label="Item Four" />
-                                    <Tab label="Item Five" />
-                                    <Tab label="Item Six" />
-                                    <Tab label="Item Seven" />
+                                    {this.state.pages.map((value, index) => (
+                                        <Tab key={index} label={value} />
+                                    ))}
                                 </Tabs>
                             </AppBar>
                         </Grid>
-                        <Grid container className={classes.topMargin} justify="center" spacing={Number(spacing)}>
-                            <Grid className={classes.well} item xs={6} md={4} sm={3} lg={3}>
-                                test
-                            </Grid>
-                            <Grid className={classes.well} item xs={6} md={4} sm={3} lg={3}>
-                                test
-                            </Grid>
-                            <Grid className={classes.well} item xs={12} md={4} sm={3} lg={3}>
-                                test
-                            </Grid>
-                            <Grid className={classes.well} item xs={12} md={4} sm={3} lg={3}>
-                                test
-                            </Grid>
+                        <Grid container className={classes.tab} justify="center" spacing={Number(spacing)}>
+                            {this.createTab(this.state.activeTab)}
                         </Grid>
                     </Grid>
                 </Grid>
-                <p><br></br><br></br><br></br>Profile</p>
             </React.Fragment >
         );
     }
