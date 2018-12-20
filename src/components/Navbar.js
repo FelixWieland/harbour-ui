@@ -7,10 +7,13 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import Search from '@material-ui/icons/Search'
+import Close from '@material-ui/icons/Close'
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { NavLink, withRouter } from 'react-router-dom';
+import TextField from '@material-ui/core/TextField';
 
 /*Own Components*/
 import SideMenu from './SideMenu'
@@ -26,7 +29,7 @@ import SideMenu from './SideMenu'
 </FormGroup>
 */
 
-const styles = {
+const styles = theme => ({
     root: {
         flexGrow: 1,
     },
@@ -40,18 +43,28 @@ const styles = {
     appBar: {
         zIndex: 1100,
     },
-};
+    searchBarVisible: {
+        zIndex: 1101,
+        backgroundColor: theme.palette.secondary.main,
+    },
+    textField: {
+        width: "100%",
+        marginRight: 5,
+    }
+});
 
 class Navbar extends React.Component {
     state = {
         auth: true,
         anchorEl: null,
         show_sidebar: false,
+        searchBarActive: false,
     };
 
     constructor(props) {
         super(props);
         this.handleMenuDrawer = this.handleMenuDrawer.bind(this);
+        this.toggleSearchBar = this.toggleSearchBar.bind(this);
     };
 
     handleChange = event => {
@@ -101,15 +114,41 @@ class Navbar extends React.Component {
         this.setState(state);
     }
 
+    toggleSearchBar = () => {
+        var set = !this.state.searchBarActive;
+        this.setState({ searchBarActive: set })
+    }
+
     render() {
         const { classes } = this.props;
         const { auth, anchorEl } = this.state;
         const open = Boolean(anchorEl);
 
+        var searchBar = () => {
+            if (this.state.searchBarActive == true) {
+                return (
+                    <AppBar className={classes.searchBarVisible} position="fixed">
+                        <Toolbar >
+                            <TextField
+                                id="standard-bare"
+                                className={classes.textField}
+                                defaultValue="Bare"
+                                margin="normal"
+                            />
+                            <IconButton onClick={this.toggleSearchBar} color="default">
+                                <Close />
+                            </IconButton>
+                        </Toolbar>
+                    </AppBar>
+                );
+            }
+        }
+
         return (
             <div className={classes.root}>
                 <CssBaseline />
                 <SideMenu clipped={this.props.clipped} show={this.state.show_sidebar} handleStateChange={this.handleStateChange} />
+                {searchBar()}
                 <AppBar position="fixed">
                     <Toolbar variant="dense">
                         <IconButton className={classes.menuButton} onClick={this.handleMenuDrawer} color="inherit" aria-label="Menu">
@@ -127,6 +166,12 @@ class Navbar extends React.Component {
                                     color="inherit"
                                 >
                                     <AccountCircle />
+                                </IconButton>
+                                <IconButton
+                                    onClick={this.toggleSearchBar}
+                                    color="inherit"
+                                >
+                                    <Search />
                                 </IconButton>
                                 <Menu
                                     id="menu-appbar"
