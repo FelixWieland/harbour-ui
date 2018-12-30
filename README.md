@@ -41,6 +41,17 @@ npm install @material-ui/lab
 ```Bash
 npm install react-loadable
 ```
+9. react-big-calendar & moment.js:
+```Bash
+npm install react-big-calendar --save
+```
+```Bash
+npm install moment --save
+```
+10. react-shortcut:
+```
+npm install --save react-shortcut
+```
 
 **2. Build the Container**
 Build the Container with:

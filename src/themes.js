@@ -5,13 +5,18 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 
 var themes = {
-    std_light_theme: {
+    harbour_basic_theme: {
         palette: {
             primary: {
                 // light: will be calculated from palette.primary.main,
                 main: '#2294F3',
                 // dark: will be calculated from palette.primary.main,
                 // contrastText: will be calculated to contrast with palette.primary.main
+            },
+            complimentary: {
+                light: '#ffc400',
+                main: '#f57c00',
+                dark: '#e53935'
             },
             secondary: {
                 light: '#2294F3',
@@ -23,6 +28,42 @@ var themes = {
                 default: '#eeeeee'
             },
             // error: will use the default color
+        },
+        priority: {
+            low: "#4caf50",
+            medium: "#ffeb3b",
+            high: "#e53935",
+        },
+        shadows: ["none"],
+    },
+    std_light_theme: {
+        palette: {
+            primary: {
+                // light: will be calculated from palette.primary.main,
+                main: '#2294F3',
+                // dark: will be calculated from palette.primary.main,
+                // contrastText: will be calculated to contrast with palette.primary.main
+            },
+            complimentary: {
+                light: '#ffc400',
+                main: '#f57c00',
+                dark: '#e53935'
+            },
+            secondary: {
+                light: '#2294F3',
+                main: '#FFFFFF',
+                // dark: will be calculated from palette.secondary.main,
+                contrastText: '#ffcc00',
+            },
+            background: {
+                default: '#eeeeee'
+            },
+            // error: will use the default color
+        },
+        priority: {
+            low: "#4caf50",
+            medium: "#ffeb3b",
+            high: "#e53935",
         },
         //shadows: ["none"]
     },
@@ -43,6 +84,11 @@ var themes = {
             },
             // error: will use the default color
         },
+        priority: {
+            low: "#4caf50",
+            medium: "#ffeb3b",
+            high: "#e53935",
+        },
     },
     Flatstyle_Blue_Light: {
         palette: {
@@ -51,6 +97,11 @@ var themes = {
                 main: '#2294F3',
                 // dark: will be calculated from palette.primary.main,
                 // contrastText: will be calculated to contrast with palette.primary.main
+            },
+            complimentary: {
+                light: '#ffc400',
+                main: '#f57c00',
+                dark: '#e53935'
             },
             secondary: {
                 light: '#2294F3',
@@ -63,6 +114,11 @@ var themes = {
             }
             // error: will use the default color
         },
+        priority: {
+            low: "#4caf50",
+            medium: "#ffeb3b",
+            high: "#e53935",
+        },
         shadows: ["none"]
     },
     Flatstyle_Blue_Dark: {
@@ -74,11 +130,21 @@ var themes = {
                 // dark: will be calculated from palette.primary.main,
                 // contrastText: will be calculated to contrast with palette.primary.main
             },
+            complimentary: {
+                light: '#ffc400',
+                main: '#f57c00',
+                dark: '#e53935'
+            },
             secondary: {
                 light: '#2294F3',
                 main: '#FFFFFF',
                 // dark: will be calculated from palette.secondary.main,
                 contrastText: '#ffcc00',
+            },
+            priority: {
+                low: "#4caf50",
+                medium: "#ffeb3b",
+                high: "#e53935",
             },
             // error: will use the default color
         },
@@ -92,6 +158,11 @@ var themes = {
                 // dark: will be calculated from palette.primary.main,
                 // contrastText: will be calculated to contrast with palette.primary.main
             },
+            complimentary: {
+                light: '#ffc400',
+                main: '#f57c00',
+                dark: '#e53935'
+            },
             secondary: {
                 light: '#2294F3',
                 main: '#FFFFFF',
@@ -100,7 +171,12 @@ var themes = {
             },
             background: {
                 default: '#eeeeee'
-            }
+            },
+            priority: {
+                low: "#4caf50",
+                medium: "#ffeb3b",
+                high: "#e53935",
+            },
             // error: will use the default color
         },
     },
@@ -113,11 +189,21 @@ var themes = {
                 // dark: will be calculated from palette.primary.main,
                 // contrastText: will be calculated to contrast with palette.primary.main
             },
+            complimentary: {
+                light: '#ffc400',
+                main: '#f57c00',
+                dark: '#e53935'
+            },
             secondary: {
                 light: '#2294F3',
                 main: '#FFFFFF',
                 // dark: will be calculated from palette.secondary.main,
                 contrastText: '#ffcc00',
+            },
+            priority: {
+                low: "#4caf50",
+                medium: "#ffeb3b",
+                high: "#e53935",
             },
             // error: will use the default color
         },
@@ -130,11 +216,21 @@ var themes = {
                 // dark: will be calculated from palette.primary.main,
                 // contrastText: will be calculated to contrast with palette.primary.main
             },
+            complimentary: {
+                light: '#ffc400',
+                main: '#f57c00',
+                dark: '#e53935'
+            },
             secondary: {
                 light: '#A7A8A9',
                 main: '#FFFFFF',
                 // dark: will be calculated from palette.secondary.main,
                 contrastText: '#ffcc00',
+            },
+            priority: {
+                low: "#4caf50",
+                medium: "#ffeb3b",
+                high: "#e53935",
             },
             // error: will use the default color
         },
@@ -148,11 +244,21 @@ var themes = {
                 // dark: will be calculated from palette.primary.main,
                 // contrastText: will be calculated to contrast with palette.primary.main
             },
+            complimentary: {
+                light: '#ffc400',
+                main: '#f57c00',
+                dark: '#e53935'
+            },
             secondary: {
                 light: '#A7A8A9',
                 main: '#FFFFFF',
                 // dark: will be calculated from palette.secondary.main,
                 contrastText: '#ffcc00',
+            },
+            priority: {
+                low: "#4caf50",
+                medium: "#ffeb3b",
+                high: "#e53935",
             },
             // error: will use the default color
         },

@@ -12,22 +12,15 @@ import Close from '@material-ui/icons/Close'
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { NavLink, withRouter } from 'react-router-dom';
+import { NavLink, withRouter, Redirect } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
+
+import HotKey from 'react-shortcut';
 
 /*Own Components*/
 import SideMenu from './SideMenu'
 
-/*
-<FormGroup>
-    <FormControlLabel
-        control={
-            <Switch checked={auth} onChange={this.handleChange} aria-label="LoginSwitch" />
-        }
-        label={auth ? 'Logout' : 'Login'}
-    />
-</FormGroup>
-*/
+import Fade from '@material-ui/core/Fade';
 
 const styles = theme => ({
     root: {
@@ -54,15 +47,18 @@ const styles = theme => ({
 });
 
 class Navbar extends React.Component {
-    state = {
-        auth: true,
-        anchorEl: null,
-        show_sidebar: false,
-        searchBarActive: false,
-    };
 
     constructor(props) {
         super(props);
+        this.state = {
+            auth: true,
+            anchorEl: null,
+            show_sidebar: false,
+            searchBarActive: false,
+            shortcuts: {
+                toggleSearchbar: ['shift', 'control'],
+            }
+        };
         this.handleMenuDrawer = this.handleMenuDrawer.bind(this);
         this.toggleSearchBar = this.toggleSearchBar.bind(this);
     };
@@ -75,17 +71,10 @@ class Navbar extends React.Component {
     };
 
     handleMenu = event => {
-        /*
-        this.setState({
-            anchorEl: event.currentTarget,
-            show_sidebar: false
-        });*/
-
         this.setState({
             anchorEl: event.currentTarget,
             show_sidebar: false
         });
-
     };
 
     handleClose = () => {
@@ -119,84 +108,122 @@ class Navbar extends React.Component {
         this.setState({ searchBarActive: set })
     }
 
+
+
+    searchBarChange = (event) => {
+        var value = event.target.value;
+        console.log(value);
+        //speedModuleChange
+        if (value[0] == ">") {
+            this.setState({
+                redirect: value.substring(1, value.length),
+            });
+        }
+    }
+
+    searchBarKeyPress = (e) => {
+        switch (e.key) {
+            case "Enter":
+                this.toggleSearchBar()
+                break;
+        }
+    }
+
     render() {
         const { classes } = this.props;
         const { auth, anchorEl } = this.state;
         const open = Boolean(anchorEl);
 
+        var redirectTo = () => {
+            if (this.state.redirect != undefined) {
+                var to = this.state.redirect;
+                return (<Redirect to={"/" + to} />);
+            }
+        }
+
         var searchBar = () => {
-            if (this.state.searchBarActive == true) {
-                return (
+            return (
+                <Fade in={this.state.searchBarActive} timeout={300} unmountOnExit>
                     <AppBar className={classes.searchBarVisible} position="fixed">
                         <Toolbar >
                             <TextField
-                                id="standard-bare"
+                                id="standard-search"
                                 className={classes.textField}
-                                defaultValue="Bare"
+                                defaultValue=""
                                 margin="normal"
+                                autoFocus={true}
+                                onChange={this.searchBarChange}
+                                onKeyDown={this.searchBarKeyPress}
                             />
                             <IconButton onClick={this.toggleSearchBar} color="default">
                                 <Close />
                             </IconButton>
                         </Toolbar>
                     </AppBar>
-                );
-            }
+                </Fade >
+            );
         }
 
         return (
-            <div className={classes.root}>
+            <div className={classes.root} >
+                {redirectTo()}
+
+                <HotKey keys={this.state.shortcuts.toggleSearchbar} simultaneous onKeysCoincide={this.toggleSearchBar} />
+
                 <CssBaseline />
                 <SideMenu clipped={this.props.clipped} show={this.state.show_sidebar} handleStateChange={this.handleStateChange} />
                 {searchBar()}
-                <AppBar position="fixed">
-                    <Toolbar variant="dense">
-                        <IconButton className={classes.menuButton} onClick={this.handleMenuDrawer} color="inherit" aria-label="Menu">
-                            <MenuIcon />
-                        </IconButton>
-                        <Typography variant="h6" color="inherit" onClick={this.handleHarbourClick} className={classes.grow}>
-                            {""}
-                        </Typography>
-                        {auth && (
-                            <div>
-                                <IconButton
-                                    aria-owns={open ? 'menu-appbar' : undefined}
-                                    aria-haspopup="true"
-                                    onClick={this.handleMenu}
-                                    color="inherit"
-                                >
-                                    <AccountCircle />
-                                </IconButton>
-                                <IconButton
-                                    onClick={this.toggleSearchBar}
-                                    color="inherit"
-                                >
-                                    <Search />
-                                </IconButton>
-                                <Menu
-                                    id="menu-appbar"
-                                    anchorEl={anchorEl}
-                                    anchorOrigin={{
-                                        vertical: 'top',
-                                        horizontal: 'right',
-                                    }}
-                                    transformOrigin={{
-                                        vertical: 'top',
-                                        horizontal: 'right',
-                                    }}
-                                    open={open}
-                                    onClose={this.handleClose}
-                                >
-                                    <NavLink className="clearAll" to={"/Profile"}>
-                                        <MenuItem>Profile</MenuItem>
-                                    </NavLink>
-                                    <MenuItem onClick={() => this.logout()}>Logout</MenuItem>
-                                </Menu>
-                            </div>
-                        )}
-                    </Toolbar>
-                </AppBar>
-            </div>
+                {this.props.invisible && (
+                    <AppBar position="fixed">
+                        <Toolbar variant="dense">
+                            <IconButton className={classes.menuButton} onClick={this.handleMenuDrawer} color="inherit" aria-label="Menu">
+                                <MenuIcon />
+                            </IconButton>
+                            <Typography variant="h6" color="inherit" onClick={this.handleHarbourClick} className={classes.grow}>
+                                {""}
+                            </Typography>
+                            {auth && (
+                                <div>
+                                    <IconButton
+                                        aria-owns={open ? 'menu-appbar' : undefined}
+                                        aria-haspopup="true"
+                                        onClick={this.handleMenu}
+                                        color="inherit"
+                                    >
+                                        <AccountCircle />
+                                    </IconButton>
+                                    <IconButton
+                                        onClick={this.toggleSearchBar}
+                                        color="inherit"
+                                    >
+                                        <Search />
+                                    </IconButton>
+                                    <Menu
+                                        id="menu-appbar"
+                                        anchorEl={anchorEl}
+                                        anchorOrigin={{
+                                            vertical: 'top',
+                                            horizontal: 'right',
+                                        }}
+                                        transformOrigin={{
+                                            vertical: 'top',
+                                            horizontal: 'right',
+                                        }}
+                                        open={open}
+                                        onClose={this.handleClose}
+                                    >
+                                        <NavLink className="clearAll" to={"/Profile"}>
+                                            <MenuItem>Profile</MenuItem>
+                                        </NavLink>
+                                        <MenuItem onClick={() => this.logout()}>Logout</MenuItem>
+                                    </Menu>
+                                </div>
+                            )}
+                        </Toolbar>
+                    </AppBar>
+                )}
+
+            </div >
         );
     }
 }

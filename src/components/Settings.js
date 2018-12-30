@@ -13,6 +13,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import Checkbox from '@material-ui/core/Checkbox';
 
 
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -82,6 +83,18 @@ class Settings extends React.Component {
         });
     };
 
+    toggleNavigationStyle = event => {
+        var padding = !this.state.getSettings.navbar.visibility ? "56px" : "6px";
+
+        this.state.setSettings({
+            paddingTop: padding,
+            navbar: {
+                visibility: !this.state.getSettings.navbar.visibility,
+            }
+        });
+
+    }
+
     render() {
 
         const { classes } = this.props;
@@ -107,23 +120,14 @@ class Settings extends React.Component {
         );
 
         var navigation_style_setting = (
-            <form className={classes.root} autoComplete="off">
-                <FormControl className={classes.formControl}>
-                    <InputLabel htmlFor="ui-navtype">Type</InputLabel>
-                    <Select
-                        value={""}
-                        onChange={this.handleThemeChange}
-                        inputProps={{
-                            name: 'Type',
-                            id: 'ui-navtype',
-                        }}
-                    >
-                        {Object.keys([]).map((key, index) => (
-                            <MenuItem value={key} key={key} >{key}</MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
-            </form>
+            <div>
+                <Checkbox
+                    checked={!this.state.getSettings.navbar.visibility}
+                    onChange={() => this.toggleNavigationStyle()}
+                    value="checkedB"
+                    color="primary"
+                />
+            </div>
         );
 
         return (
@@ -142,6 +146,17 @@ class Settings extends React.Component {
                                         </Typography>
                                     </ExpansionPanelDetails>
                                 </ExpansionPanel>
+                                <ExpansionPanel>
+                                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                                        <Typography className={classes.heading}>Navigation</Typography>
+                                    </ExpansionPanelSummary>
+                                    <ExpansionPanelDetails>
+                                        <Typography>
+                                            {navigation_style_setting}
+                                        </Typography>
+                                    </ExpansionPanelDetails>
+                                </ExpansionPanel>
+                                <ExpansionPanel></ExpansionPanel>
                                 <ExpansionPanel>
                                     <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                                         <Typography className={classes.heading}>Development</Typography>

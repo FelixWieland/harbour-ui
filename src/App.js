@@ -25,7 +25,9 @@ import Development from './components/Development';
 import Login from './components/Login';
 import Marketplace from './components/Marketplace';
 import Usermanagement from './components/Usermanagement';
+import Chatbar from './components/Chatbar';
 import ModuleLoader from './ModuleLoader';
+
 
 class App extends Component {
 
@@ -33,12 +35,15 @@ class App extends Component {
     super(props);
 
     this.modules = {};
-
     this.state = {
       clipped: 'temporary', //"permanent (not fully working)","persistent (not fully working)","temporary"
       themes: theme,
-      active_theme: theme["std_light_theme"], //STD Theme
-      active_theme_name: "std_light_theme",
+      active_theme: theme["harbour_basic_theme"], //STD Theme
+      active_theme_name: "harbour_basic_theme",
+      paddingTop: "56px",
+      navbar: {
+        visibility: true,
+      }
     }
   };
 
@@ -72,8 +77,8 @@ class App extends Component {
       return (
         <BrowserRouter>
           <MuiThemeProvider theme={this.state.active_theme}>
-            <div className="App">
-              <Navbar clipped={this.state.clipped} />
+            <div className="App" style={{ paddingTop: this.state.paddingTop }}>
+              <Navbar invisible={this.state.navbar.visibility} clipped={this.state.clipped} />
               <div className={this.getWorkingArea()} >
                 <Switch>
 
@@ -90,9 +95,12 @@ class App extends Component {
                     getSettings={this.state}
                     setSettings={this.setSettings} />)} />
                   <Route path="/LegalNotice" component={LegalNotice} />
-                  <Route path="/Profile" component={Profile} />
-                  <Route path="/Marketplace" component={Marketplace} />
+
+                  <Route path="/:User/Profile" component={Profile} />
+
                   <Route path="/Usermanagement" component={Usermanagement} />
+                  <Route path="/Marketplace" component={Marketplace} />
+
 
                   <Route path="/Modules" component={() => (<p>ModulePreview</p>)} exact />
                   <Route path="/Module/:Modulename" component={() => (<ModuleLoader />)} />
@@ -100,6 +108,7 @@ class App extends Component {
                   <Route component={NotFound} />
                 </Switch>
               </div>
+              <Chatbar />
             </div>
           </MuiThemeProvider>
         </BrowserRouter >

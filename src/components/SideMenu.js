@@ -8,6 +8,7 @@ import ListItem from '@material-ui/core/ListItem';
 import { Link } from 'react-router-dom';
 import Collapse from '@material-ui/core/Collapse';
 
+import HotKey from 'react-shortcut';
 
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -39,6 +40,9 @@ class SideMenu extends React.Component {
     state = {
         left: false,
         changed: true,
+        shortcuts: {
+            toggleSideMenu: ['control', '<'],
+        }
     };
 
     constructor(props) {
@@ -70,11 +74,24 @@ class SideMenu extends React.Component {
         );
     }
 
+    shortcutToggleDrawer = () => {
+        var state = !this.state.left;
+        console.log(this.expanded);
+        this.setState({
+            left: state
+        });
+        this.props.handleStateChange({
+            show_sidebar: state
+        });
+    }
+
     toggleDrawer = (state) => () => {
+        console.log(state);
         if (this.expanded == true) {
             this.expanded = false;
             this.forceUpdate();
         } else {
+            this.expanded = state;
             this.setState({
                 left: state
             });
@@ -175,6 +192,8 @@ class SideMenu extends React.Component {
 
         return (
             <div>
+                <HotKey keys={this.state.shortcuts.toggleSideMenu} simultaneous onKeysCoincide={this.shortcutToggleDrawer} />
+
                 <Drawer variant={this.state.variant} className={classes.variantClass} anchor="left" open={this.state.left} onClose={this.toggleDrawer(false)} >
                     <div
                         tabIndex={0}

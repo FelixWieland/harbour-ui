@@ -9,10 +9,42 @@ import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import AddIcon from '@material-ui/icons/Add';
+import Fade from '@material-ui/core/Fade';
+
+import IconButton from '@material-ui/core/IconButton';
+
+import BigCalendar from 'react-big-calendar'
+import "react-big-calendar/lib/css/react-big-calendar.css";
+import moment from 'moment'
 
 /*Own Components*/
 
+const localizer = BigCalendar.momentLocalizer(moment)
+
+
 const styles = theme => ({
+    root: {
+        marginBottom: 50,
+    },
+    profileOverview: {
+        backgroundColor: theme.palette.primary.light,
+        position: 'relative',
+    },
+    primaryActionButton: {
+        position: "absolute",
+        left: "calc(50% - 30px)",
+        bottom: "-30px",
+        backgroundColor: "white",
+        '&:hover': {
+            boxShadow: [
+                theme.shadows[2],
+                theme.shadows[2],
+            ],
+            backgroundColor: "rgba(255,255,255,0.9)",
+            cursor: "pointer",
+        }
+    },
     test: {
         backgroundColor: theme.palette.primary.main,
     },
@@ -20,19 +52,20 @@ const styles = theme => ({
         backgroundColor: "white",
     },
     headerMargin: {
-        marginTop: 30,
-        marginBottom: 55,
+        marginTop: 45,
+        marginBottom: 45,
         [theme.breakpoints.only('xs')]: {
-            marginBottom: 5,
+            marginBottom: 45,
         },
     },
     relativeWrapper: {
         position: "relative",
     },
     profileAvatar: {
-        margin: 10,
-        width: 250,
-        height: 250,
+        width: "80%",
+        maxWidth: "230px",
+        marginLeft: "20%",
+        height: "auto",
         boxShadow: [
             theme.shadows[0],
             theme.shadows[0],
@@ -42,9 +75,11 @@ const styles = theme => ({
 
     },
     profileAvatarEditable: {
-        margin: 10,
-        width: 250,
-        height: 250,
+        width: "80%",
+        marginLeft: "20%",
+        maxWidth: "230px",
+        height: "auto",
+        border: "10px 20px 30px 40px solid blue",
         boxShadow: [
             theme.shadows[1],
             theme.shadows[1],
@@ -65,6 +100,7 @@ const styles = theme => ({
         bottom: -30,
         backgroundColor: "#FFFFFF",
         padding: 10,
+        width: "auto",
         boxShadow: [
             theme.shadows[1],
             theme.shadows[1],
@@ -84,16 +120,92 @@ const styles = theme => ({
     },
     profileEmail: {
         margin: 0,
-        textAlign: "left",
+        textAlign: "center",
+        fontSize: 14,
+        width: "auto",
+    },
+    profileRole: {
+        width: "auto",
         fontSize: 18,
-
-        role: {
-            fontSize: 18,
-        }
+        whiteSpace: "pre",
     },
     tab: {
         backgroundColor: theme.palette.secondary.main,
         paddingTop: 15,
+    },
+
+    taskBar1: {
+        padding: 25,
+        fontSize: 25,
+        backgroundColor: theme.palette.complimentary.main,
+        color: theme.palette.primary.contrastText,
+    },
+    taskBar2: {
+        padding: 25,
+        fontSize: 25,
+        backgroundColor: theme.palette.complimentary.dark,
+        color: theme.palette.primary.contrastText,
+    },
+    fullname: {
+        margin: 0,
+        width: "100%",
+
+        color: theme.palette.primary.contrastText,
+        textAlign: "left",
+        [theme.breakpoints.only('lg')]: {
+            fontSize: "5.5ch",
+        },
+        [theme.breakpoints.only('md')]: {
+            fontSize: "5.5ch",
+        },
+        [theme.breakpoints.only('sm')]: {
+            fontSize: "4.5ch",
+        },
+        [theme.breakpoints.only('xs')]: {
+            fontSize: "30px",
+        }
+    },
+    role: {
+        margin: 0,
+        width: "100%",
+        fontSize: "25px",
+        fontStyle: "italic",
+        color: theme.palette.primary.contrastText,
+        textAlign: "left",
+    },
+    email: {
+        margin: 0,
+        marginTop: 5,
+        width: "100%",
+        fontSize: "20px",
+        textAlign: "left",
+    },
+    paddingWhenXS: {
+        [theme.breakpoints.only('xs')]: {
+            paddingLeft: 15,
+            paddingRight: 15,
+        }
+    },
+    centerTexts: {
+        [theme.breakpoints.only('lg')]: {
+            paddingTop: "4%",
+        },
+        [theme.breakpoints.only('md')]: {
+            paddingTop: "4%",
+        },
+        [theme.breakpoints.only('sm')]: {
+            paddingTop: "3%",
+        },
+        [theme.breakpoints.only('xs')]: {
+            paddingTop: "2.5%",
+        }
+    },
+    tabPadding: {
+        paddingLeft: 5,
+        paddingRight: 5,
+        width: "100%",
+        minHeight: "50vh",
+        height: "auto",
     }
 });
 
@@ -102,21 +214,47 @@ class Profile extends React.Component {
     constructor(props) {
         super(props);
 
+        let profile = this.initProfile();
+
         this.state = {
             spacing: '16',
-            profile: {
-                username: "WielandF",
-                email: "demo.mail@server.de",
-                role: "Developer",
+            profile: profile,
+            activeTab: 0,
+            calendarEvents: [
+                {
+                    start: new Date(),
+                    end: new Date(moment().add(1, "days")),
+                    title: "Some title"
+                }
+            ]
+        }
+    }
+
+    initProfile = () => {
+        //check if own user or not
+        var user = this.props.match.params.User
+        if (user == undefined) {
+            //load own user
+            user = "OWN USER";
+        }
+
+        return {
+            username: user,
+            fullname: "Felix Wieland",
+            email: "demo.mail@server.de",
+            role: "Software Developer",
+            tasks: {
+                completed: 20,
+                remaining: 15,
             },
             pages: [
                 "Standard",
+                "Tasks",
                 "Projects",
                 "Calender",
                 "Settings"
             ],
-            activeTab: 0,
-        }
+        };
     }
 
     changeTab = (event, value) => {
@@ -124,8 +262,27 @@ class Profile extends React.Component {
     }
 
     createTab = (value) => {
+        const { classes } = this.props;
+        var page = this.state.profile.pages[value]
+        switch (page) {
+            case "Calender":
+                return (
+                    <div className={classes.tabPadding}>
+                        <BigCalendar
+                            events={this.state.calendarEvents}
+                            localizer={localizer}
+                            startAccessor="start"
+                            endAccessor="end"
+                            style={{ width: "100%", height: "70vh" }}
+                        />
+                    </div>
+
+                );
+        }
         return (
-            <p>{value}</p>
+            <div className={classes.tabPadding}>
+                <p>{page}</p>
+            </div>
         );
     }
 
@@ -135,48 +292,70 @@ class Profile extends React.Component {
         const { classes } = this.props;
         const { spacing } = this.state;
 
-        var createHeader = () => {
+        var header = () => {
             return (
-                <Grid item xs={12} md={10} sm={10} lg={10}>
+                <Grid item className={classes.profileOverview} xs={12} md={10} sm={10} lg={10}>
                     <Grid container className={classes.headerMargin} spacing={Number(spacing)}>
-                        <Grid item xs={12} sm={5} md={5} lg={3} className={classes.avatarHeight} >
+                        <Grid item xs={4} sm={4} md={4} lg={4} className={classes.avatarHeight} >
                             <Grid container spacing={Number(spacing)} justify="center">
-                                <div className={classes.relativeWrapper}>
-                                    <Avatar alt="Remy Sharp" src="/avatar.png" style={{ alignSelf: 'center' }} className={classes.profileAvatarEditable} />
-                                    <div className={classes.escapedElement}>
-                                        <p className={classes.profileName}>{this.state.profile.username}</p>
-                                        <p className={classes.profileEmail}>
-                                            <Link to={"/"}>
-                                                {this.state.profile.email}
-                                            </Link>
-                                            &nbsp;-&nbsp;
-                                                <span className={classes.profileEmail.role}>{this.state.profile.role}</span>
-                                        </p>
-                                    </div>
-
-                                </div>
+                                <Avatar alt="Demo Avatar" src="/avatar.png" className={classes.profileAvatarEditable} />
+                            </Grid>
+                        </Grid>
+                        <Grid item xs={1} sm={1} md={1} lg={1}></Grid>
+                        <Grid item xs={7} sm={7} md={7} lg={7}>
+                            <Grid container spacing={Number(spacing)} className={classes.centerTexts}>
+                                <p className={classes.fullname}>{this.state.profile.fullname}</p>
+                                <Link className={classes.email} to={"/"}>
+                                    {this.state.profile.email}
+                                </Link>
+                                <p className={classes.role}>{this.state.profile.role}</p>
                             </Grid>
                         </Grid>
                     </Grid>
+                    <IconButton aria-label="Delete" className={classes.primaryActionButton}>
+                        <AddIcon fontSize="large" />
+                    </IconButton>
                 </Grid>);
+        }
+
+        var tasks = () => {
+            return (
+                <Grid item xs={12} md={10} sm={10} lg={10}>
+                    <Grid container spacing={Number(spacing)}>
+                        <Grid item xs={6} sm={6} md={6} lg={6} className={classes.taskBar2} >
+                            <p>{this.state.profile.tasks.remaining}</p>
+                            <p>Remaining tasks</p>
+                        </Grid>
+                        <Grid item xs={6} sm={6} md={6} lg={6} className={classes.taskBar1} >
+
+                            <p>{this.state.profile.tasks.completed}</p>
+                            <p>Completed tasks</p>
+
+                        </Grid>
+
+                    </Grid>
+                </Grid>
+            );
         }
 
         return (
             <React.Fragment>
                 <Grid container className={classes.root} spacing={16} justify="center">
-                    {createHeader()}
-                    <Grid item xs={11} md={10} sm={10} lg={10}>
+                    {header()}
+                    {tasks()}
+                    <Grid item xs={12} md={10} sm={10} lg={10}>
                         <Grid container justify="center" spacing={Number(spacing)}>
-                            <AppBar position="static" color="secondary">
+                            <AppBar position="static" style={{ zIndex: 0 }} color="secondary">
                                 <Tabs
                                     value={this.state.activeTab}
+                                    className={classes.paddingWhenXS}
                                     onChange={this.changeTab}
                                     indicatorColor="primary"
                                     textColor="primary"
                                     scrollable
                                     scrollButtons="auto"
                                 >
-                                    {this.state.pages.map((value, index) => (
+                                    {this.state.profile.pages.map((value, index) => (
                                         <Tab key={index} label={value} />
                                     ))}
                                 </Tabs>

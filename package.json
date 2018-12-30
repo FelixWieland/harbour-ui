@@ -11,13 +11,17 @@
     "git-commit-push-via-github-api": "^1.0.1",
     "github": "^14.0.0",
     "https-proxy-agent": "^2.2.1",
+    "moment": "^2.23.0",
     "nodegit": "^0.23.0",
     "react": "^16.5.2",
+    "react-big-calendar": "^0.20.2",
     "react-dom": "^16.5.2",
+    "react-hotkeys": "^1.1.4",
     "react-loadable": "^5.5.0",
     "react-monaco-editor": "^0.21.0",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.0.5",
+    "react-shortcut": "^1.0.6",
     "simple-git": "^1.107.0"
   },
   "scripts": {

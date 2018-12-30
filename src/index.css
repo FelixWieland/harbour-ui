@@ -6,7 +6,6 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  padding-top: 60px;
   overflow-x: hidden !important;
   height: calc(100vh + 0.5px);
 }
