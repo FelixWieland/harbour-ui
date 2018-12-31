@@ -141,12 +141,12 @@ var themes = {
                 // dark: will be calculated from palette.secondary.main,
                 contrastText: '#ffcc00',
             },
-            priority: {
-                low: "#4caf50",
-                medium: "#ffeb3b",
-                high: "#e53935",
-            },
             // error: will use the default color
+        },
+        priority: {
+            low: "#4caf50",
+            medium: "#ffeb3b",
+            high: "#e53935",
         },
         shadows: ["none"]
     },
@@ -172,12 +172,12 @@ var themes = {
             background: {
                 default: '#eeeeee'
             },
-            priority: {
-                low: "#4caf50",
-                medium: "#ffeb3b",
-                high: "#e53935",
-            },
             // error: will use the default color
+        },
+        priority: {
+            low: "#4caf50",
+            medium: "#ffeb3b",
+            high: "#e53935",
         },
     },
     monokai_dark_theme: {
@@ -200,12 +200,12 @@ var themes = {
                 // dark: will be calculated from palette.secondary.main,
                 contrastText: '#ffcc00',
             },
-            priority: {
-                low: "#4caf50",
-                medium: "#ffeb3b",
-                high: "#e53935",
-            },
             // error: will use the default color
+        },
+        priority: {
+            low: "#4caf50",
+            medium: "#ffeb3b",
+            high: "#e53935",
         },
     },
     tensorstyle_light_theme: {
@@ -227,12 +227,12 @@ var themes = {
                 // dark: will be calculated from palette.secondary.main,
                 contrastText: '#ffcc00',
             },
-            priority: {
-                low: "#4caf50",
-                medium: "#ffeb3b",
-                high: "#e53935",
-            },
             // error: will use the default color
+        },
+        priority: {
+            low: "#4caf50",
+            medium: "#ffeb3b",
+            high: "#e53935",
         },
     },
     tensorstyle_dark_theme: {
@@ -255,12 +255,12 @@ var themes = {
                 // dark: will be calculated from palette.secondary.main,
                 contrastText: '#ffcc00',
             },
-            priority: {
-                low: "#4caf50",
-                medium: "#ffeb3b",
-                high: "#e53935",
-            },
             // error: will use the default color
+        },
+        priority: {
+            low: "#4caf50",
+            medium: "#ffeb3b",
+            high: "#e53935",
         },
     }
 };

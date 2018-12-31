@@ -108,8 +108,6 @@ class Navbar extends React.Component {
         this.setState({ searchBarActive: set })
     }
 
-
-
     searchBarChange = (event) => {
         var value = event.target.value;
         console.log(value);
